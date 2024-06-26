@@ -1,6 +1,10 @@
 import "~/styles/globals.css";
+import { ThemeProvider } from "~/components/theme-provider";
 
 import { GeistSans } from "geist/font/sans";
+import { Header } from "~/components/header";
+import { Footer } from "~/components/footer";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {
   title: "Create T3 App",
@@ -14,8 +18,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${GeistSans.variable}  `}>
+      <body className="flex min-h-screen flex-col justify-between bg-gradient-to-b from-[#1e2124] to-[#282B30]">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          {children}
+          <Footer />
+          <Toaster />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
