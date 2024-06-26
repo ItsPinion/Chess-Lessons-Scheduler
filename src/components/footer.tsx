@@ -1,6 +1,6 @@
 "use client";
 
-import { color, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import Link from "next/link";
 import { AiTwotoneMail } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +8,6 @@ import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -77,7 +73,11 @@ export function FooterForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input className="bg-[#36393e] border-blue-900 border-4" placeholder="shadcn" {...field} />
+                <Input
+                  className="border-4 border-blue-900 bg-[#36393e]"
+                  placeholder="shadcn"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +90,11 @@ export function FooterForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input className="bg-[#36393e] border-blue-900 border-4" placeholder="jonapeter91@gmail.com" {...field} />
+                <Input
+                  className="border-4 border-blue-900 bg-[#36393e]"
+                  placeholder="jonapeter91@gmail.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,7 +107,11 @@ export function FooterForm() {
             <FormItem>
               <FormLabel>Subject</FormLabel>
               <FormControl>
-                <Input className="bg-[#36393e] border-blue-900 border-4" placeholder="Contact" {...field} />
+                <Input
+                  className="border-4 border-blue-900 bg-[#36393e]"
+                  placeholder="Contact"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,20 +120,22 @@ export function FooterForm() {
         <FormField
           control={form.control}
           name="message"
-
           render={({ field }) => (
             <FormItem>
-
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea className="bg-[#36393e] border-blue-900 border-4" placeholder="Message" {...field} />
+                <Textarea
+                  className="border-4 border-blue-900 bg-[#36393e]"
+                  placeholder="Message"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <div className="flex w-[100%] flex-col items-center justify-center ">
-          <Button type="submit" variant="secondary" >
+          <Button type="submit" variant="secondary">
             Submit
           </Button>
         </div>
