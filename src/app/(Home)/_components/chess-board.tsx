@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { ChessBoardSVG } from "~/app/(Home)/_components/ChessBoardSVG";
 
 const chessPieces = {
   white: [
@@ -104,7 +105,6 @@ const chessPieces = {
     },
   ],
 };
-import { ChessBoardSVG } from "~/app/(Home)/_components/BlueChessboard";
 
 export function ChessBoard() {
   const constraintsRef = useRef(null);
@@ -130,9 +130,10 @@ export function ChessBoard() {
                   alt="chess"
                   width={35}
                   height={35}
-                  whileInView={adjustedHoverPosition}
+                  animate={adjustedHoverPosition}
                   transition={{ duration: 1 }}
                   drag
+                  dragMomentum={false}
                   dragConstraints={constraintsRef}
                   whileDrag={{ scale: 2.5 }}
                   whileTap={{ scale: 2.5 }}
@@ -158,9 +159,10 @@ export function ChessBoard() {
                   alt="chess"
                   width={35}
                   height={35}
-                  whileInView={adjustedHoverPosition}
+                  animate={adjustedHoverPosition}
                   transition={{ duration: 1 }}
                   drag
+                  dragMomentum={false}
                   dragConstraints={constraintsRef}
                 />
               );
