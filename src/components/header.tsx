@@ -1,16 +1,9 @@
 "use client";
-import { IoIosArrowRoundForward } from "react-icons/io";
 import { useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { NavigationMenuDemo } from "./header-nav";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 
 export function Header() {

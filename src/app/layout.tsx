@@ -3,8 +3,6 @@ import { ThemeProvider } from "~/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { GeistSans } from "geist/font/sans";
-import { Header } from "~/components/header";
-import { Footer } from "~/components/footer";
 import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {

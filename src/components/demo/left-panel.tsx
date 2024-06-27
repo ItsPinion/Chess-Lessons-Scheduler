@@ -15,7 +15,6 @@ import { useLocale } from "@react-aria/i18n";
 import { CalendarIcon, Clock4 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { timeZones } from "./time-zones";
-import Image from "next/image";
 import { FcVideoCall } from "react-icons/fc";
 export function LeftPanel({
   showForm,
