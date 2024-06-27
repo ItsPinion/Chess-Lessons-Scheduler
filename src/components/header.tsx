@@ -1,7 +1,7 @@
 "use client";
-
+import { IoIosArrowRoundForward } from "react-icons/io";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { NavigationMenuDemo } from "./header-nav";
 import {
@@ -11,6 +11,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { Button } from "./ui/button";
 
 export function Header() {
   const [isHovered, setIsHovered] = useState(false);
@@ -28,20 +29,30 @@ export function Header() {
         <p className="text-xs leading-7">Chess Coach</p>
       </div>
       <NavigationMenuDemo setIsHovered={setIsHovered} />
-      <motion.div
-        className="flex flex-row items-center justify-center gap-3"
-        initial={{ scale: 1.25 }}
-        whileHover={{ scale: 1.5 }}
-        transition={{ duration: 0.2 }}
-      >
+      <div className="flex flex-row items-center justify-center gap-3">
         <SignedOut>
-          <SignInButton />
-          <SignUpButton />
+          <SignInButton>
+            <Button
+              variant="expandIcon"
+              Icon={FaArrowRightLong}
+              iconPlacement="right"
+              className="border-2 border-solid border-white py-0 text-xs text-white "
+            >
+              Sign Up
+            </Button>
+          </SignInButton>
         </SignedOut>
         <SignedIn>
-          <UserButton />
+          <motion.div
+            className="flex flex-row items-center justify-center gap-3"
+            initial={{ scale: 1.25 }}
+            whileHover={{ scale: 1.5 }}
+            transition={{ duration: 0.2 }}
+          >
+            <UserButton />
+          </motion.div>
         </SignedIn>
-      </motion.div>
+      </div>
     </motion.header>
   );
 }

@@ -1,9 +1,10 @@
 import { Button } from "~/components/ui/button";
 import { ChessBoard } from "./chess-board";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <div className="flex flex-col items-center justify-center md:flex-row md:justify-between">
+    <div className="flex flex-row items-center justify-between">
       <div className="flex w-[50%] flex-col items-center justify-center text-center">
         <b className="text-lg">
           <span className="text-purple-500  drop-shadow-[0px_0px_5px_rgba(168,85,247,1)]">
@@ -30,7 +31,9 @@ export function HeroSection() {
         </p>
 
         <div className="flex flex-row items-center justify-center gap-3">
-          <Button className="mt-4 text-white">Book Now</Button>
+          <Link href={"/book"}>
+            <Button className="mt-4 text-white">Book Now</Button>
+          </Link>
           <span className="mt-3">or</span>
           <Button className="mt-4 text-white">Free Lessions</Button>
         </div>
