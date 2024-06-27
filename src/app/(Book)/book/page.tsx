@@ -11,7 +11,7 @@ export default function Page({
   const today = new Date();
   const dateString = today.toISOString().slice(0, 10);
 
-  if (searchParams.date !== dateString) {
+  if (searchParams.date) {
     const pathname = headers().get("x-current-path");
 
     redirect(pathname + "?date=" + dateString);
