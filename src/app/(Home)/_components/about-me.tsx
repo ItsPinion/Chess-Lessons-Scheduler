@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
 export function AboutMe() {
@@ -16,23 +17,14 @@ export function AboutMe() {
         </h1>
         <p className="leading-7 [&:not(:first-child)]:mt-6">
           Hello everyone, my name is{" "}
-          <b className="text-indigo-700">
-            Jonathan Peterson
-          </b>
-          , and I am a 20-year-old{" "}
-          <b className="text-orange-800">
-            chess coach
-          </b>{" "}
-          from the U.S. I started playing chess around the{" "}
-          <b className="text-red-700">
-            ages of 7 - 9
-          </b>
-          . Eventually, I started playing online and in in-person tournaments.
-          This led to one of my proudest achievements, which was winning{" "}
-          <b className="text-orange-400">
-            2nd place
-          </b>{" "}
-          at the 2020 MS State Chess Championship (grades 9 - 12 section).
+          <b className="text-indigo-700">Jonathan Peterson</b>, and I am a
+          20-year-old <b className="text-orange-800">chess coach</b> from the
+          U.S. I started playing chess around the{" "}
+          <b className="text-red-700">ages of 7 - 9</b>. Eventually, I started
+          playing online and in in-person tournaments. This led to one of my
+          proudest achievements, which was winning{" "}
+          <b className="text-orange-400">2nd place</b> at the 2020 MS State
+          Chess Championship (grades 9 - 12 section).
         </p>
 
         <p className="leading-7 [&:not(:first-child)]:mt-6">
@@ -42,12 +34,12 @@ export function AboutMe() {
           chess seriously again.
         </p>
 
-        <Button
-          variant={"ghost"}
+        <Link
+          href={"/about"}
           className="my-3 mr-auto p-0 drop-shadow-[0px_0px_1px_rgba(30,64,175,1)] hover:bg-transparent hover:text-blue-800"
         >
           Read More...
-        </Button>
+        </Link>
       </motion.div>
       <div className="flex w-[50%] flex-col items-center justify-center bg-primary text-center"></div>
     </div>

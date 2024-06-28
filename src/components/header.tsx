@@ -2,9 +2,10 @@
 import { useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import { NavigationMenuDemo } from "./header-nav";
+import { MainNavigationMenu } from "./header-nav";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export function Header() {
   const [isHovered, setIsHovered] = useState(false);
@@ -15,13 +16,13 @@ export function Header() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <div className=" flex flex-col items-center justify-center">
+      <Link href="/" className=" flex flex-col items-center justify-center">
         <h3 className="text-2xl font-semibold tracking-tight">
           Jonathan Peterson
         </h3>
         <p className="text-xs leading-7">Chess Coach</p>
-      </div>
-      <NavigationMenuDemo setIsHovered={setIsHovered} />
+      </Link>
+      <MainNavigationMenu setIsHovered={setIsHovered} />
       <div className="flex flex-row items-center justify-center gap-3">
         <SignedOut>
           <SignInButton>

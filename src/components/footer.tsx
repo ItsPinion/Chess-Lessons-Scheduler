@@ -1,10 +1,10 @@
 "use client";
 
-import {  motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { AiTwotoneMail } from "react-icons/ai";
-import { FaDiscord } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
+import { FaDiscord, FaChess, FaYoutube } from "react-icons/fa";
+import { SiLichess } from "react-icons/si";
 import { FooterForm } from "./footer-form";
 
 const footerLinks = [
@@ -13,21 +13,30 @@ const footerLinks = [
     href: "mailto:jonapeter91@gmail.com",
     display: "jonapeter91@gmail.com",
     icon: AiTwotoneMail,
-    color: "red",
   },
   {
     name: "Discord",
     href: "https://discord.com/users/1023317171876671509",
     display: "jonapeter",
     icon: FaDiscord,
-    color: "white",
   },
   {
     name: "Youtube",
     href: "https://www.youtube.com/@JonaPeter",
     display: "@JonaPeter",
     icon: FaYoutube,
-    color: "red",
+  },
+  {
+    name: "Chess.com",
+    href: "https://www.chess.com/member/jpetersonchess",
+    display: "jpetersonchess",
+    icon: FaChess,
+  },
+  {
+    name: "Lichess",
+    href: "https://lichess.org/@/Tenacious123",
+    display: "Tenacious123",
+    icon: SiLichess,
   },
 ];
 
@@ -40,9 +49,9 @@ export function Footer() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="flex w-[50%] flex-col items-center justify-start gap-3 mb-auto">
+        <div className="mb-auto flex w-[50%] flex-col items-center justify-start gap-3">
           <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-            Contact
+            Info.
           </h2>
           <div className="flex flex-col items-start gap-7">
             {footerLinks.map((link) => (
@@ -51,17 +60,19 @@ export function Footer() {
                 href={link.href}
                 className="flex flex-row items-center justify-center gap-1 text-lg font-medium leading-none"
               >
-                <link.icon className={`text-${link.color}-800`} />
+                <link.icon />
                 <b> {link.name} : </b> {link.display}
               </Link>
             ))}
           </div>
         </div>
         <div className="flex w-[50%] flex-col items-center justify-center">
+          <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+            Contact
+          </h2>
           <FooterForm />
         </div>
       </motion.footer>
     </div>
   );
 }
-

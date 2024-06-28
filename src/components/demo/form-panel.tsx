@@ -59,6 +59,26 @@ export function FormPanel() {
         />
       </div>
       <div className="flex flex-col space-y-1.5">
+        <Label htmlFor="discord">{"What's your Discord username? *"}</Label>
+        <Input
+          className="bg-[#36393e]"
+          id="discord"
+          type="text"
+          defaultValue="dricobelli@gmail.com"
+        />
+      </div>
+      <div className="flex flex-col space-y-1.5">
+        <Label htmlFor="chess">
+          What is your Chess.com username and Lichess username?
+        </Label>
+        <Input
+          className="bg-[#36393e]"
+          id="chess"
+          type="text"
+          defaultValue="dricobelli@gmail.com"
+        />
+      </div>
+      <div className="flex flex-col space-y-1.5">
         <Label htmlFor="email">Additional notes</Label>
         <Textarea
           className="bg-[#36393e]"

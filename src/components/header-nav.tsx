@@ -59,7 +59,7 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
-export function NavigationMenuDemo({
+export function MainNavigationMenu({
   setIsHovered,
 }: {
   setIsHovered: Dispatch<SetStateAction<boolean>>;
@@ -126,9 +126,9 @@ export function NavigationMenuDemo({
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/about" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
+              About Me
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

@@ -1,16 +1,18 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
-export function middleware(request: NextRequest) {
-  // Add a new header x-current-path which passes the path to downstream components
-  const headers = new Headers(request.headers);
-  headers.set("x-current-path", request.nextUrl.href.split("?")[0]!);
-  return NextResponse.next({ headers });
-}
+const isProtectedRoute = createRouteMatcher(["/book(.*)"])
 
-export default clerkMiddleware();
+export default clerkMiddleware((auth, req) => {
+  if (isProtectedRoute(req)) {
+    const url = new URL(req.nextUrl.origin)
+
+    auth().protect({
+      unauthenticatedUrl: `${url.origin}/sign-in`,
+      unauthorizedUrl: `${url.origin}/book`,
+    })
+  }
+})
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-};
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+}
