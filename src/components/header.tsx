@@ -13,50 +13,48 @@ export function Header() {
   const pathname = usePathname();
 
   if (
-    pathname.split("/")[1]?.startsWith("sign-up") ??
-    pathname.split("/")[1]?.startsWith("sign-in")
+    !pathname.split("/")[1]?.startsWith("sign-up") &&
+    !pathname.split("/")[1]?.startsWith("sign-in")
   ) {
-    return null;
-  }
-
-  return (
-    <motion.header
-      className={`static z-50 m-2 flex flex-row items-center justify-between rounded-lg bg-primary px-6  ${isHovered ? "shadow-[0px_0px_20px_rgba(50,100,255,1)]" : ""}`}
-      initial={{ opacity: 0.5, y: -100 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
-    >
-      <Link href="/" className=" flex flex-col items-center justify-center">
-        <h3 className="text-2xl font-semibold tracking-tight">
-          Jonathan Peterson
-        </h3>
-        <p className="text-xs leading-7">Chess Coach</p>
-      </Link>
-      <MainNavigationMenu setIsHovered={setIsHovered} />
-      <div className="flex flex-row items-center justify-center gap-3">
-        <SignedOut>
-          <SignInButton>
-            <Button
-              variant="expandIcon"
-              Icon={FaArrowRightLong}
-              iconPlacement="right"
-              className="border-2 border-solid border-white py-0 text-xs text-white "
+    return (
+      <motion.header
+        className={`static z-50 m-2 flex flex-row items-center justify-between rounded-lg bg-primary px-6  ${isHovered ? "shadow-[0px_0px_20px_rgba(50,100,255,1)]" : ""}`}
+        initial={{ opacity: 0.5, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Link href="/" className=" flex flex-col items-center justify-center">
+          <h3 className="text-2xl font-semibold tracking-tight">
+            Jonathan Peterson
+          </h3>
+          <p className="text-xs leading-7">Chess Coach</p>
+        </Link>
+        <MainNavigationMenu setIsHovered={setIsHovered} />
+        <div className="flex flex-row items-center justify-center gap-3">
+          <SignedOut>
+            <SignInButton>
+              <Button
+                variant="expandIcon"
+                Icon={FaArrowRightLong}
+                iconPlacement="right"
+                className="border-2 border-solid border-white py-0 text-xs text-white "
+              >
+                Sign Up
+              </Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <motion.div
+              className="flex flex-row items-center justify-center gap-3"
+              initial={{ scale: 1.25 }}
+              whileHover={{ scale: 1.5 }}
+              transition={{ duration: 0.2 }}
             >
-              Sign Up
-            </Button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
-          <motion.div
-            className="flex flex-row items-center justify-center gap-3"
-            initial={{ scale: 1.25 }}
-            whileHover={{ scale: 1.5 }}
-            transition={{ duration: 0.2 }}
-          >
-            <UserButton />
-          </motion.div>
-        </SignedIn>
-      </div>
-    </motion.header>
-  );
+              <UserButton />
+            </motion.div>
+          </SignedIn>
+        </div>
+      </motion.header>
+    );
+  } else null;
 }
