@@ -45,8 +45,8 @@ export function Footer() {
   const pathname = usePathname();
 
   if (
-    pathname.split("/")[1]?.startsWith("sign-up") &&
-    pathname.split("/")[1]?.startsWith("sign-in")
+    !pathname.split("/")[1]?.startsWith("sign-up") &&
+    !pathname.split("/")[1]?.startsWith("sign-in")
   ) {
     return (
       <div>
