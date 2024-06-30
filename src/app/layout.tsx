@@ -4,6 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "~/components/ui/toaster";
+import { Header } from "~/components/header";
+import { Footer } from "~/components/footer";
 
 export const metadata = {
   title: "Create T3 App",
@@ -24,7 +26,6 @@ export default function RootLayout({
           colorBackground: "#282B30",
           colorPrimary: "#7289da",
         },
-        
       }}
     >
       <html lang="en" className={`${GeistSans.variable}`}>
@@ -35,7 +36,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Header />
             {children}
+            <Footer />
             <Toaster />
           </ThemeProvider>
         </body>

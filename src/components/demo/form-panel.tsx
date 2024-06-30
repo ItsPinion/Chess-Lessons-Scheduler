@@ -1,147 +1,186 @@
+"use client";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
 
 import { Textarea } from "~/components/ui/textarea";
 
-import { UserPlus, X } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import * as React from "react";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { toast } from "~/components/ui/use-toast";
 
-type Guest = {
-  email: string;
-};
+import { useRouter, useSearchParams } from "next/navigation";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { getOffset } from "./available-times";
+
+const FormSchema = z.object({
+  name: z.string().min(2, {
+    message: "name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Invalid email address",
+  }),
+  discord: z.string().min(2, {
+    message: "Discord usename must be at least 2 characters",
+  }),
+  chess: z.string().min(2, {
+    message: "chess.com or Lichess username must be at least 2 characters",
+  }),
+  notes: z.string().max(1000, {
+    message: "Additional info. must be at most 1000 characters",
+  }),
+});
 
 export function FormPanel() {
+  const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [guests, setGuests] = React.useState<Guest[]>([]);
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: "",
+      notes: "",
+    },
+  });
 
-  const addGuest = () => {
-    setGuests([...guests, { email: "" }]);
-  };
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">
+            {JSON.stringify(
+              {
+                ...data,
+                time: new Date(searchParams.get("slot")!),
+                date: searchParams.get("date")!,
+                offset: getOffset(),
+              },
+              null,
+              2,
+            )}
+          </code>
+        </pre>
+      ),
+    });
 
-  const removeGuest = (index: number) => {
-    setGuests(guests.filter((_, i) => i !== index));
-  };
-
-  const handleChange = (index: number, email: string) => {
-    setGuests(guests.map((guest, i) => (i === index ? { email } : guest)));
-  };
-
-  const hasGuests = guests.length > 0;
+    form.reset({ name: "", notes: "", email: "", discord: "", chess: "" });
+  }
 
   return (
-    <form className="flex w-[360px] flex-col gap-5">
-      <div className="flex flex-col space-y-1.5">
-        <Label htmlFor="name">Your name *</Label>
-        <Input
-          className="bg-[#36393e]"
-          id="name"
-          defaultValue="Damián Ricobelli"
-        />
-      </div>
-      <div className="flex flex-col space-y-1.5">
-        <Label htmlFor="email">Email address *</Label>
-        <Input
-          className="bg-[#36393e]"
-          id="email"
-          type="email"
-          defaultValue="dricobelli@gmail.com"
-        />
-      </div>
-      <div className="flex flex-col space-y-1.5">
-        <Label htmlFor="discord">{"What's your Discord username? *"}</Label>
-        <Input
-          className="bg-[#36393e]"
-          id="discord"
-          type="text"
-          defaultValue="dricobelli@gmail.com"
-        />
-      </div>
-      <div className="flex flex-col space-y-1.5">
-        <Label htmlFor="chess">
-          What is your Chess.com username and Lichess username?
-        </Label>
-        <Input
-          className="bg-[#36393e]"
-          id="chess"
-          type="text"
-          defaultValue="dricobelli@gmail.com"
-        />
-      </div>
-      <div className="flex flex-col space-y-1.5">
-        <Label htmlFor="email">Additional notes</Label>
-        <Textarea
-          className="bg-[#36393e]"
-          id="notes"
-          placeholder="Please share anything that will help prepare for our meeting"
-        />
-      </div>
-      {hasGuests && (
-        <>
-          <Label htmlFor="email">Add guests</Label>
-          <div className="flex flex-col gap-1">
-            {guests.map((guest, index) => (
-              <div key={index} className="relative flex items-center space-x-2">
-                <Input
-                  id="guest"
-                  type="email"
-                  placeholder="Email"
-                  value={guest.email}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                />{" "}
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <X
-                        className="absolute right-2 top-1/2 size-4 -translate-y-1/2 transform cursor-pointer"
-                        onClick={() => removeGuest(index)}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent>Remove email</TooltipContent>
-                  </Tooltip>{" "}
-                </TooltipProvider>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-      <Button
-        type="button"
-        variant="ghost"
-        onClick={() => addGuest()}
-        className="w-fit"
-      >
-        <UserPlus className="mr-2 size-4" />
-        Add guests
-      </Button>
-      <p className="text-gray-11 my-4 text-xs">
-        By proceeding, you agree to our{" "}
-        <span className="text-gray-12">Terms</span> and{" "}
-        <span className="text-gray-12">Privacy Policy</span>.
-      </p>
-      <div className="flex justify-end gap-2">
-        <Button
-          variant="ghost"
-          onClick={() => {
-            router.back();
-          }}
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-2/3 space-y-6"
         >
-          Back
-        </Button>
-        <Button asChild type="button">
-          <Link href="/">Continue</Link>
-        </Button>
-      </div>
-    </form>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Your name <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input className="bg-[#36393e]" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Email address <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input className="bg-[#36393e]" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="discord"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  What&#39;s your Discord username?{" "}
+                  <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input className="bg-[#36393e]" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="chess"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  What is your Chess.com username and Lichess username?{" "}
+                  <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input className="bg-[#36393e]" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Additional notes</FormLabel>
+                <FormControl>
+                  <Textarea className="bg-[#36393e]" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex w-[100%] flex-row items-center justify-center gap-3">
+            <Button
+              variant="expandIcon"
+              Icon={FaArrowLeftLong}
+              iconPlacement="left"
+              className="border-2 border-solid border-white bg-transparent text-xs  text-white hover:bg-[#2e2d2d71] "
+              onClick={() => {
+                router.back();
+              }}
+            >
+              Back
+            </Button>
+            <Button
+              type="submit"
+              variant="expandIcon"
+              Icon={FaArrowRightLong}
+              iconPlacement="right"
+            >
+              Book
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </>
   );
 }

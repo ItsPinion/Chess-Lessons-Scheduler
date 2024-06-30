@@ -1,6 +1,7 @@
 import { Button } from "~/components/ui/button";
 import { ChessBoard } from "./chess-board";
 import Link from "next/link";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 export function HeroSection() {
   return (
@@ -32,10 +33,17 @@ export function HeroSection() {
 
         <div className="flex flex-row items-center justify-center gap-3">
           <Link href={"/book"}>
-            <Button className="mt-4 text-white">Book Now</Button>
+            <Button
+              variant="expandIcon"
+              Icon={FaArrowRightLong}
+              iconPlacement="right"
+              className="mt-4 text-white "
+            >
+              Book A Lesson Now
+            </Button>
           </Link>
-          <span className="mt-3">or</span>
-          <Button className="mt-4 text-white">Free Lessions</Button>
+          {/* <span className="mt-3">or</span> */}
+          {/* <Button className="mt-4 text-white">Free Lessions</Button> */}
         </div>
       </div>
       <ChessBoard />

@@ -1,5 +1,7 @@
 "use client";
-
+import { FaChessPawn } from "react-icons/fa";
+import { SiDiscord } from "react-icons/si";
+import { ImYoutube } from "react-icons/im";
 import Link from "next/link";
 
 import {
@@ -23,39 +25,9 @@ import type {
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    title: "Coming Soon",
+    href: "#",
+    description: "Just wait for it to be released",
   },
 ];
 
@@ -80,27 +52,44 @@ export function MainNavigationMenu({
                 <NavigationMenuLink asChild>
                   <a
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
+                    href="/book"
                   >
                     <div className="mb-2 mt-4 text-lg font-medium">
-                      shadcn/ui
+                      Book a Lesson
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components built with Radix UI and
-                      Tailwind CSS.
+                    Schedule a lesson with Me
                     </p>
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
+              <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#8d131371] px-4">
+                <ImYoutube className="mr-2 h-16 w-16 text-[#8d1313]" />
+
+                <ListItem
+                  href="https://discord.com/users/1023317171876671509"
+                  title="Youtube"
+                  className="px-auto flex flex-col"
+                >
+                  Watch interesting videos about chess by me.
+                </ListItem>
+              </span>
+              <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#4f75ff8b] px-4">
+                <SiDiscord className="mr-2 h-16 w-16 text-[#4f75ff]"/>
+
+                <ListItem href="https://discord.gg/ReeHfWQSMn" title="Discord Server">
+                  Meet the community and ask questions about chess
+                </ListItem>
+              </span>
+
+              <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#16a2378b] px-4"> 
+              <FaChessPawn className="mr-2 h-16 w-16 text-[#16a237]"/>
+
+              <ListItem href="https://www.chess.com/member/jpetersonchess" title="Chess.com">
+                Visit my chess.com profile and see what I play
               </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
+
+              </span>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

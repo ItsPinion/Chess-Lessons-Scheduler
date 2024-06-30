@@ -135,8 +135,6 @@ export function ChessBoard() {
                   drag
                   dragMomentum={false}
                   dragConstraints={constraintsRef}
-                  whileDrag={{ scale: 2.5 }}
-                  whileTap={{ scale: 2.5 }}
                 />
               );
             }),

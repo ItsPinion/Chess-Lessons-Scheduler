@@ -6,9 +6,19 @@ import { MainNavigationMenu } from "./header-nav";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Header() {
   const [isHovered, setIsHovered] = useState(false);
+  const pathname = usePathname();
+
+  if (
+    pathname.split("/")[1]?.startsWith("sign-up") ??
+    pathname.split("/")[1]?.startsWith("sign-in")
+  ) {
+    return null;
+  }
+
   return (
     <motion.header
       className={`static z-50 m-2 flex flex-row items-center justify-between rounded-lg bg-primary px-6  ${isHovered ? "shadow-[0px_0px_20px_rgba(50,100,255,1)]" : ""}`}

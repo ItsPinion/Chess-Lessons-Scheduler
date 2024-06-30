@@ -6,6 +6,7 @@ import { AiTwotoneMail } from "react-icons/ai";
 import { FaDiscord, FaChess, FaYoutube } from "react-icons/fa";
 import { SiLichess } from "react-icons/si";
 import { FooterForm } from "./footer-form";
+import { usePathname } from "next/navigation";
 
 const footerLinks = [
   {
@@ -41,6 +42,12 @@ const footerLinks = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+
+  if (pathname.split("/")[1]?.startsWith("sign-up") ?? pathname.split("/")[1]?.startsWith("sign-in")) {
+    return null;
+  }
+
   return (
     <div>
       <motion.footer

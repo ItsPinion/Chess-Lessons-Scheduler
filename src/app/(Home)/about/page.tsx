@@ -113,7 +113,7 @@ export default function AboutPage() {
         interesting time!
       </p>
       <b className="mx-auto my-10 text-4xl text-primary">
-        LET&#39;S WIN SOME CHESS GAMES BOIS & GIRRS!
+        LET&#39;S WIN SOME CHESS GAMES BOYS & GIRLS!
       </b>
     </main>
   );

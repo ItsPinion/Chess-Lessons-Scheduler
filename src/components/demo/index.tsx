@@ -24,7 +24,7 @@ export function Demo() {
   const dateParam = searchParams.get("date");
   const slotParam = searchParams.get("slot");
 
-  const [timeZone, setTimeZone] = React.useState("America/New_York");
+  const timeZone = "America/New_York";
   const [date, setDate] = React.useState(today(getLocalTimeZone()));
   const [focusedDate, setFocusedDate] = React.useState<CalendarDate | null>(
     date,
@@ -79,11 +79,7 @@ export function Demo() {
   return (
     <div className="mx-auto w-full max-w-max rounded-md bg-[#16181b] px-8 py-6">
       <div className="flex gap-3">
-        <LeftPanel
-          showForm={showForm}
-          timeZone={timeZone}
-          setTimeZone={setTimeZone}
-        />
+        <LeftPanel showForm={showForm} />
         {!showForm ? (
           <>
             <Calendar
