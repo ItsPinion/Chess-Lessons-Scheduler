@@ -13,6 +13,7 @@ export function Header() {
   const pathname = usePathname();
 
   if (
+    !pathname.split("/")[1]?.startsWith("book") &&
     !pathname.split("/")[1]?.startsWith("sign-up") &&
     !pathname.split("/")[1]?.startsWith("sign-in")
   ) {

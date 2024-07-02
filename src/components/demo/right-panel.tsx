@@ -6,8 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 import type { DateValue } from "@react-aria/calendar";
 import { useLocale } from "@react-aria/i18n";
-import { getAvailableTimes, getOffset } from "./available-times";
+import { formatTime, getAvailableTimes, getOffset } from "./available-times";
 import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getAvaiavleTimesbyDate } from "~/server/lesson";
+import { useEffect } from "react";
 
 export function RightPanel({
   date,
@@ -29,11 +32,27 @@ export function RightPanel({
     })
     .split(" ");
 
-  
-  const availableTimes = getAvailableTimes(getOffset());
+  const workingTimes = getAvailableTimes(getOffset()).map((time) => JSON.stringify(time))
 
-  const searchParams = useSearchParams();
-  console.log(searchParams.get("date")!);
+  const dateQuery = useSearchParams().get("date")!;
+
+  const {
+    data: avaiavleTimesbyDate,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["allURL"],
+    queryFn: () => getAvaiavleTimesbyDate(dateQuery, workingTimes),
+  });
+
+  useEffect(() => {
+    async function fetchData() {
+      console.log("refetch");
+      await refetch();
+    }
+    void fetchData();
+  }, [dateQuery, refetch]);
+
   return (
     <Tabs
       defaultValue="12"
@@ -61,7 +80,7 @@ export function RightPanel({
             }}
           >
             <div className="grid gap-2 pr-3">
-              {availableTimes.map((availableTime) => (
+              {avaiavleTimesbyDate?.map((availableTime) => (
                 <Button
                   className="text-white"
                   onClick={() =>

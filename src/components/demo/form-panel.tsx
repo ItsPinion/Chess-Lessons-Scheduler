@@ -18,9 +18,15 @@ import {
 } from "~/components/ui/form";
 import { toast } from "~/components/ui/use-toast";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { getOffset } from "./available-times";
+import { useUser } from "@clerk/nextjs";
+import { useMutation } from "@tanstack/react-query";
+import { createLesson } from "~/server/lesson";
+import { hourglass } from "ldrs";
+
+hourglass.register();
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -41,146 +47,171 @@ const FormSchema = z.object({
 });
 
 export function FormPanel() {
+  const { user } = useUser();
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: "",
+      name: user?.username
+        ? user?.username
+        : `${user?.firstName} ${user?.lastName}`,
+      discord: user?.externalAccounts.some(
+        (account) => account.provider === "discord",
+      )
+        ? `${user?.username}`
+        : "",
+      email: user?.emailAddresses[0]?.emailAddress ?? "",
       notes: "",
+      chess: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">
-            {JSON.stringify(
-              {
-                ...data,
-                time: new Date(searchParams.get("slot")!),
-                date: searchParams.get("date")!,
-                offset: getOffset(),
-              },
-              null,
-              2,
-            )}
-          </code>
-        </pre>
-      ),
-    });
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: createLesson,
 
-    form.reset({ name: "", notes: "", email: "", discord: "", chess: "" });
-  }
-
-  return (
-    <>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Your name <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input className="bg-[#36393e]" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Email address <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input className="bg-[#36393e]" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="discord"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  What&#39;s your Discord username?{" "}
-                  <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input className="bg-[#36393e]" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="chess"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  What is your Chess.com username and Lichess username?{" "}
-                  <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input className="bg-[#36393e]" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="notes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Additional notes</FormLabel>
-                <FormControl>
-                  <Textarea className="bg-[#36393e]" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex w-[100%] flex-row items-center justify-center gap-3">
-            <Button
-              variant="expandIcon"
-              Icon={FaArrowLeftLong}
-              iconPlacement="left"
-              className="border-2 border-solid border-white bg-transparent text-xs  text-white hover:bg-[#2e2d2d71] "
-              onClick={() => {
-                router.back();
-              }}
-            >
-              Back
-            </Button>
-            <Button
-              type="submit"
-              variant="expandIcon"
-              Icon={FaArrowRightLong}
-              iconPlacement="right"
-            >
-              Book
-            </Button>
+    onSuccess: (data) => {
+      toast({
+        description: (
+          <div
+            className={`mt-2 w-[340px] rounded-md ${data.success ? "bg-green-600" : "bg-red-600"} p-4`}
+          >
+            <p className="text-center text-white">{data.message}</p>
           </div>
-        </form>
-      </Form>
-    </>
+        ),
+      });
+      // form.reset();
+      data.success && location.replace("/");
+    },
+  });
+
+  return !isLoading ? (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(
+          async (data) =>
+            await mutateAsync({
+              user_id: user?.id ?? "0",
+              ...data,
+              time: new Date(searchParams.get("slot")!),
+              date: searchParams.get("date")!,
+              offset: getOffset(),
+            }),
+        )}
+        className="w-2/3 space-y-6"
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Your name <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input className="bg-[#36393e]" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Email address <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input className="bg-[#36393e]" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="discord"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                What&#39;s your Discord username?{" "}
+                <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input className="bg-[#36393e]" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="chess"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                What is your Chess.com username and Lichess username?{" "}
+                <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input className="bg-[#36393e]" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Additional notes</FormLabel>
+              <FormControl>
+                <Textarea className="bg-[#36393e]" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex w-[100%] flex-row items-center justify-center gap-3">
+          <Button
+            variant="expandIcon"
+            Icon={FaArrowLeftLong}
+            iconPlacement="left"
+            className="border-2 border-solid border-white bg-transparent text-xs  text-white hover:bg-[#2e2d2d71] "
+            onClick={() => {
+              router.back();
+            }}
+          >
+            Back
+          </Button>
+          <Button
+            type="submit"
+            variant="expandIcon"
+            Icon={FaArrowRightLong}
+            iconPlacement="right"
+          >
+            Book
+          </Button>
+        </div>
+      </form>
+    </Form>
+  ) : (
+    <div className="flex w-[100%] flex-col items-center justify-center min-h-[100%]">
+      <l-hourglass
+        size="100"
+        bg-opacity="0.1"
+        speed="1.75"
+        color="white"
+      ></l-hourglass>
+    </div>
   );
 }

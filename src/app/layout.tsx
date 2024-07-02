@@ -6,6 +6,7 @@ import { GeistSans } from "geist/font/sans";
 import { Toaster } from "~/components/ui/toaster";
 import { Header } from "~/components/header";
 import { Footer } from "~/components/footer";
+import { Providers } from "./providers";
 
 export const metadata = {
   title: "Create T3 App",
@@ -37,7 +38,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Header />
-            {children}
+            <Providers>{children}</Providers>
             <Footer />
             <Toaster />
           </ThemeProvider>

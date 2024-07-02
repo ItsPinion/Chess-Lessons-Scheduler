@@ -19,7 +19,7 @@ export function LeftPanel({
   const slotParam = searchParams.get("slot");
 
   return (
-    <div className="flexflex-col gap-4 border-r pr-6">
+    <div className="flexflex-col gap-4 border-r pr-6 min-w-[200px]">
       <div className="grid gap-3">
         <p className="text-gray-12 text-lg font-bold">Jonathan Peterson</p>
         {showForm && (
