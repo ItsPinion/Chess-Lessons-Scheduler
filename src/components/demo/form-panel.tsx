@@ -46,7 +46,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function FormPanel() {
+export default function FormPanel() {
   const { user } = useUser();
 
   const searchParams = useSearchParams();
@@ -90,6 +90,10 @@ export function FormPanel() {
       data.success && location.replace("/");
     },
   });
+
+  if (typeof window === "undefined") {
+    return null;
+  }
 
   return !isLoading ? (
     <Form {...form}>
@@ -205,7 +209,7 @@ export function FormPanel() {
       </form>
     </Form>
   ) : (
-    <div className="flex w-[100%] flex-col items-center justify-center min-h-[100%]">
+    <div className="flex min-h-[100%] w-[100%] flex-col items-center justify-center">
       <l-hourglass
         size="100"
         bg-opacity="0.1"

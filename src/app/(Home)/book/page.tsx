@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { redirect, usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 
-export default function Page({
+export default function BookPage({
   searchParams,
 }: {
   searchParams: { date: string };

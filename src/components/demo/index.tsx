@@ -12,7 +12,15 @@ import type { DateValue } from "@react-aria/calendar";
 import { useLocale } from "@react-aria/i18n";
 import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
-import { FormPanel } from "./form-panel";
+// import { FormPanel } from "./form-panel";
+
+import dynamic from 'next/dynamic'
+const FormPanel = dynamic(() => import('./form-panel'), {
+  ssr: false,
+})
+
+
+
 import { LeftPanel } from "./left-panel";
 import { RightPanel } from "./right-panel";
 
@@ -95,6 +103,7 @@ export function Demo() {
           </>
         ) : (
           <FormPanel />
+          // <></>
         )}
       </div>
     </div>
