@@ -3,7 +3,7 @@
 import { Calendar } from "~/components/calendar";
 
 import {
-  type CalendarDate,
+  CalendarDate,
   getLocalTimeZone,
   getWeeksInMonth,
   today,
@@ -14,12 +14,20 @@ import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 // import { FormPanel } from "./form-panel";
 
-import dynamic from 'next/dynamic'
-const FormPanel = dynamic(() => import('./form-panel'), {
+import dynamic from "next/dynamic";
+const FormPanel = dynamic(() => import("./form-panel"), {
   ssr: false,
-})
+});
 
-
+function addDays(date: CalendarDate, days: number): CalendarDate {
+  const newDate = new Date(date.toString());
+  newDate.setDate(newDate.getDate() + days);
+  return new CalendarDate(
+    newDate.getFullYear(),
+    newDate.getMonth() + 1,
+    newDate.getDate(),
+  );
+}
 
 import { LeftPanel } from "./left-panel";
 import { RightPanel } from "./right-panel";
@@ -96,6 +104,7 @@ export function Demo() {
               value={date}
               onChange={handleChangeDate}
               onFocusChange={(focused) => setFocusedDate(focused)}
+              maxValue={addDays(today(getLocalTimeZone()), 4)}
             />
             <RightPanel
               {...{ date, timeZone, weeksInMonth, handleChangeAvailableTime }}

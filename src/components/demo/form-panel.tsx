@@ -18,7 +18,7 @@ import {
 } from "~/components/ui/form";
 import { toast } from "~/components/ui/use-toast";
 
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { getOffset } from "./available-times";
 import { useUser } from "@clerk/nextjs";
@@ -44,6 +44,9 @@ const FormSchema = z.object({
   notes: z.string().max(1000, {
     message: "Additional info. must be at most 1000 characters",
   }),
+  transaction: z.string().min(2, {
+    message: "Paypal transaction ID must be provided",
+  }),
 });
 
 export default function FormPanel() {
@@ -66,14 +69,11 @@ export default function FormPanel() {
       email: user?.emailAddresses[0]?.emailAddress ?? "",
       notes: "",
       chess: "",
+      transaction: "",
     },
   });
 
-  const {
-    mutateAsync,
-    isPending: isLoading,
-    isSuccess,
-  } = useMutation({
+  const { mutateAsync, isPending: isLoading } = useMutation({
     mutationFn: createLesson,
 
     onSuccess: (data) => {
@@ -105,7 +105,7 @@ export default function FormPanel() {
               ...data,
               time: new Date(searchParams.get("slot")!),
               date: searchParams.get("date")!,
-              offset: getOffset(),
+              offset: getOffset() * 10,
             }),
         )}
         className="w-2/3 space-y-6"
@@ -163,6 +163,22 @@ export default function FormPanel() {
             <FormItem>
               <FormLabel>
                 What is your Chess.com username and Lichess username?{" "}
+                <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input className="bg-[#36393e]" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="transaction"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                What is Paypal transcation ID of your payment?{" "}
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>

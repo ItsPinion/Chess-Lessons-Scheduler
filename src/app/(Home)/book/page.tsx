@@ -2,7 +2,6 @@
 import { Demo } from "~/components/demo";
 import { Suspense } from "react";
 import { redirect, usePathname } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
 
 export default function BookPage({
   searchParams,
@@ -10,10 +9,6 @@ export default function BookPage({
   searchParams: { date: string };
 }) {
   const pathname = usePathname();
-  const {isLoaded} = useUser()
-  if (!isLoaded){
-    redirect("/sign-in")
-  }
 
   if (!searchParams.date) {
     const today = new Date();
@@ -23,12 +18,10 @@ export default function BookPage({
   }
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen">
-      <div className="my-10">
-        <Suspense>
-          <Demo />
-        </Suspense>
-      </div>
+    <main className="flex min-h-screen flex-col items-center justify-center">
+      <Suspense>
+        <Demo />
+      </Suspense>
     </main>
   );
 }

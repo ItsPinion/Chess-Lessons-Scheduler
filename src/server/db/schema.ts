@@ -1,8 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
-import { index, int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -15,7 +14,7 @@ export const createTable = sqliteTableCreator(
 );
 
 export const lessonSchema = createTable("lesson", {
-  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }).notNull(),
+  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   user_id: text("user_id", { length: 256 }).notNull(),
   name: text("name", { length: 256 }).notNull(),
   email: text("email", { length: 256 }).notNull(),
@@ -23,13 +22,10 @@ export const lessonSchema = createTable("lesson", {
   chess: text("chess", { length: 256 }).notNull(),
   notes: text("notes", { length: 256 }),
   date: text("date", { length: 256 }).notNull(),
-  time: int("time", { mode: "timestamp" }).notNull().unique(),
-  offset: int("offset", { mode: "number" }).notNull(),
-  createdAt: int("created_at", { mode: "timestamp" })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  notified: int("notified", { mode: "number" }).default(0).notNull(),
+  time: integer("time", { mode: "timestamp" }).notNull().unique(),
+  offset: integer("offset", { mode: "number" }).notNull(),
+  transaction: text("transaction", { length: 256 }).notNull().unique(),
 });
 
 export type LessonInsert = typeof lessonSchema.$inferInsert;
-export type LessonSelect = typeof lessonSchema.$inferSelect
+export type LessonSelect = typeof lessonSchema.$inferSelect;

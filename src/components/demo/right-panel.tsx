@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 import type { DateValue } from "@react-aria/calendar";
 import { useLocale } from "@react-aria/i18n";
-import { formatTime, getAvailableTimes, getOffset } from "./available-times";
+import { getAvailableTimes, getOffset } from "./available-times";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getAvaiavleTimesbyDate } from "~/server/lesson";
@@ -32,15 +32,13 @@ export function RightPanel({
     })
     .split(" ");
 
-  const workingTimes = getAvailableTimes(getOffset()).map((time) => JSON.stringify(time))
+  const workingTimes = getAvailableTimes(getOffset()).map((time) =>
+    JSON.stringify(time),
+  );
 
   const dateQuery = useSearchParams().get("date")!;
 
-  const {
-    data: avaiavleTimesbyDate,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: avaiavleTimesbyDate, refetch } = useQuery({
     queryKey: ["allURL"],
     queryFn: () => getAvaiavleTimesbyDate(dateQuery, workingTimes),
   });
@@ -79,21 +77,27 @@ export function RightPanel({
               maxHeight: weeksInMonth > 5 ? "380px" : "320px",
             }}
           >
-            <div className="grid gap-2 pr-3">
-              {avaiavleTimesbyDate?.map((availableTime) => (
-                <Button
-                  className="text-white"
-                  onClick={() =>
-                    handleChangeAvailableTime(
-                      availableTime[time as "12" | "24"],
-                    )
-                  }
-                  key={availableTime[time as "12" | "24"]}
-                >
-                  {availableTime[time as "12" | "24"]}
-                </Button>
-              ))}
-            </div>
+            {avaiavleTimesbyDate?.length ? (
+              <div className="grid gap-2 pr-3">
+                {avaiavleTimesbyDate?.map((availableTime) => (
+                  <Button
+                    className="text-white"
+                    onClick={() =>
+                      handleChangeAvailableTime(
+                        availableTime[time as "12" | "24"],
+                      )
+                    }
+                    key={availableTime[time as "12" | "24"]}
+                  >
+                    {availableTime[time as "12" | "24"]}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-muted-foreground">
+                All the time slots are booked for this date
+              </p>
+            )}
           </ScrollArea>
         </TabsContent>
       ))}
