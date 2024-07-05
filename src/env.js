@@ -13,7 +13,8 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("production"),
     CLERK_SECRET_KEY: z.string(),
-    RESEND_EMAIL_TOKEN: z.string(),
+    EMAIL_HOST: z.string().email(),
+    EMAIL_PASSWORD: z.string(),
   },
 
   /**
@@ -36,13 +37,14 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     DATABASE_TOKEN: process.env.DATABASE_TOKEN,
-    RESEND_EMAIL_TOKEN: process.env.RESEND_EMAIL_TOKEN,
     NODE_ENV: process.env.NODE_ENV,
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
+    EMAIL_HOST: process.env.EMAIL_HOST,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { toast } from "~/components/ui/use-toast";
-
+import { FaExternalLinkAlt } from "react-icons/fa";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { getOffset } from "./available-times";
@@ -25,6 +25,7 @@ import { useUser } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
 import { createLesson } from "~/server/lesson";
 import { hourglass } from "ldrs";
+import Link from "next/link";
 
 hourglass.register();
 
@@ -38,9 +39,14 @@ const FormSchema = z.object({
   discord: z.string().min(2, {
     message: "Discord usename must be at least 2 characters",
   }),
-  chess: z.string().min(2, {
-    message: "chess.com or Lichess username must be at least 2 characters",
-  }),
+  chess: z
+    .string()
+    .min(2, {
+      message: "chess.com or Lichess username must be at least 2 characters",
+    })
+    .url({
+      message: "Invalid Chess.com or Lichess url",
+    }),
   notes: z.string().max(1000, {
     message: "Additional info. must be at most 1000 characters",
   }),
@@ -146,7 +152,7 @@ export default function FormPanel() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                What&#39;s your Discord username?{" "}
+                What&#39;s your Discord username?
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -162,11 +168,16 @@ export default function FormPanel() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                What is your Chess.com username and Lichess username?{" "}
+                What is your account url in Chess.com, Lichess or/and any other
+                site that you play on the most?
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input className="bg-[#36393e]" {...field} />
+                <Input
+                  className="bg-[#36393e]"
+                  placeholder="https://www.chess.com/member/jpetersonchess"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -178,8 +189,20 @@ export default function FormPanel() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                What is Paypal transcation ID of your payment?{" "}
+                What is Paypal transcation ID of your payment? 
                 <span className="text-red-500">*</span>
+                <div className="flex flex-col gap-2 p-3">
+                  <span>
+                    <Link target="_blank" href="https://www.paypal.com/paypalme/JonathanPeterson611" className="flex flex-row items-center gap-1">
+                     1. Click this link to send me the payment via paypal: <span className="text-blue-500">JonathanPeterson611</span><FaExternalLinkAlt />
+
+                    </Link>
+                  </span>
+                  <span>2. Go to your email</span>
+                  <span>3. Open the email you just received from paypal</span>
+                  <span>4. Copy the transcation ID from the email</span>
+                  <span>5. Enter your Paypal transcation ID in the field below</span>
+                </div>
               </FormLabel>
               <FormControl>
                 <Input className="bg-[#36393e]" {...field} />
