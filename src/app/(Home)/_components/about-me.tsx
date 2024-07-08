@@ -16,7 +16,7 @@ export function AboutMe() {
         </h1>
         <p className="leading-7 [&:not(:first-child)]:mt-6">
           Hello everyone, my name is{" "}
-          <b className="text-purple-500">Jonathan Peterson</b>, and I am a
+          <b className="text-blue-500">Jonathan Peterson</b>, and I am a
           20-year-old <b className="text-orange-800">chess coach</b> from the
           U.S. I started playing chess around the{" "}
           <b className="text-red-500">ages of 7 - 9</b>. Eventually, I started

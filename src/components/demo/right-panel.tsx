@@ -32,9 +32,7 @@ export function RightPanel({
     })
     .split(" ");
 
-  const workingTimes = getAvailableTimes(getOffset()).map((time) =>
-    JSON.stringify(time),
-  );
+  const workingTimes = getAvailableTimes(getOffset())
 
   const dateQuery = useSearchParams().get("date")!;
 

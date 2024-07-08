@@ -5,6 +5,8 @@ import { and, eq } from "drizzle-orm";
 import { lessonSchema } from "./db/schema";
 import type { LessonInsert } from "./db/schema";
 import {
+  convertTimesToDate,
+  findAvailableHours,
   formatTime,
   getAvaiavleTimes,
 } from "~/components/demo/available-times";
@@ -83,14 +85,14 @@ export async function createLesson(lesson: LessonInsert) {
       from: env.EMAIL_HOST,
       to: lesson.email,
       subject: "Private lesson with Jonathan Peterson",
-      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with Jonathan Peterson</h1><li>What's your Discord username?:<b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?:<b>${lesson.chess}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting :<b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(lesson.time, lesson.offset / 10)}</p><h3>Guests</h3><span>Jonathan Peterson</span><br><span>${lesson.name}</span></div></body></html>`,
+      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with Jonathan Peterson</h1><li>What's your Discord username?: <b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?: <b>${lesson.chess}</b></li><li>Lesson Type: <b>${lesson.lesson_type}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting : <b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(lesson.time, lesson.offset / 10)}</p><h3>Guests</h3><span>Jonathan Peterson</span><br><span>${lesson.name}</span></div></body></html>`,
     });
 
     await transporter.sendMail({
       from: "onboarding@resend.dev",
       to: "jonapeter91@gmail.com",
       subject: `New lesson booked by ${lesson.name}`,
-      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with Jonathan Peterson</h1><li>What's your Discord username?:<b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?:<b>${lesson.chess}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting :<b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(lesson.time, -5)}</p><h3>Guests</h3><span>Jonathan Peterson</span><br><span>${lesson.name}</span></div></body></html>`,
+      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with Jonathan Peterson</h1><li>What's your Discord username?: <b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?: <b>${lesson.chess}</b></li><li>Lesson Type: <b>${lesson.lesson_type}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting : <b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(lesson.time, -5)}</p><h3>Guests</h3><span>Jonathan Peterson</span><br><span>${lesson.name}</span></div></body></html>`,
     });
   } catch (error) {
     return { message: "Sorry, couldn't send email", success: false, error };
@@ -101,26 +103,23 @@ export async function createLesson(lesson: LessonInsert) {
 
 export async function getAvaiavleTimesbyDate(
   date: string,
-  workingTimes: string[],
+  workingHours: {
+    "12": string;
+    "24": string;
+  }[],
 ) {
-  const data = await db
+  const bookedHours = await db
     .select()
     .from(lessonSchema)
     .where(eq(lessonSchema.date, date));
 
-  const selectedTimes = data.map((lesson) => formatTime(lesson.time));
+  const realWorkingHours = convertTimesToDate(workingHours);
 
-  const avaiavleTimes = getAvaiavleTimes(workingTimes, selectedTimes);
+  if (!realWorkingHours) {
+    return [];
+  }
 
-  const result = avaiavleTimes.map(
-    (time) =>
-      JSON.parse(time) as {
-        "12": string;
-        "24": string;
-      },
-  );
-
-  return result;
+  return findAvailableHours(realWorkingHours, bookedHours);
 }
 
 export async function getLessonDatabyTime(time: Date): Promise<LessonInsert[]> {

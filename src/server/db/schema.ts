@@ -25,6 +25,7 @@ export const lessonSchema = createTable("lesson", {
   time: integer("time", { mode: "timestamp" }).notNull().unique(),
   offset: integer("offset", { mode: "number" }).notNull(),
   transaction: text("transaction", { length: 256 }).notNull().unique(),
+  lesson_type: text("lesson_type", { length: 256 , enum: ["free", "casual", "serious"] }).notNull(),
 });
 
 export type LessonInsert = typeof lessonSchema.$inferInsert;

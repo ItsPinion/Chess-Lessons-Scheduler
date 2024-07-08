@@ -1,7 +1,13 @@
 "use client";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,28 +36,32 @@ import Link from "next/link";
 hourglass.register();
 
 const FormSchema = z.object({
-  name: z.string().min(2, {
+  name: z.string({}).min(2, {
     message: "name must be at least 2 characters.",
   }),
-  email: z.string().email({
-    message: "Invalid email address",
-  }),
+  email: z
+    .string({
+      required_error: "Please enter an email address.",
+    })
+    .email({
+      message: "Invalid email address",
+    }),
   discord: z.string().min(2, {
     message: "Discord usename must be at least 2 characters",
   }),
   chess: z
-    .string()
-    .min(2, {
-      message: "chess.com or Lichess username must be at least 2 characters",
+    .string({
+      required_error: "Please enter an URL.",
     })
     .url({
-      message: "Invalid Chess.com or Lichess url",
+      message: "Invalid URL",
     }),
   notes: z.string().max(1000, {
     message: "Additional info. must be at most 1000 characters",
   }),
-  transaction: z.string().min(2, {
-    message: "Paypal transaction ID must be provided",
+  transaction: z.string(),
+  lesson_type: z.enum(["free", "casual", "serious"], {
+    required_error: "Please select an lesson type first.",
   }),
 });
 
@@ -74,7 +84,6 @@ export default function FormPanel() {
         : "",
       email: user?.emailAddresses[0]?.emailAddress ?? "",
       notes: "",
-      chess: "",
       transaction: "",
     },
   });
@@ -168,14 +177,14 @@ export default function FormPanel() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                What is your account url in Chess.com, Lichess or/and any other
-                site that you play on the most?
+                What is the site that you play on the most -- put a link to your
+                profile.
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
                   className="bg-[#36393e]"
-                  placeholder="https://www.chess.com/member/jpetersonchess"
+                  placeholder="Ex: https://www.chess.com/member/jpetersonchess"
                   {...field}
                 />
               </FormControl>
@@ -183,29 +192,67 @@ export default function FormPanel() {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="lesson_type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Lesson Type <span className="text-red-500">*</span>
+              </FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a lesson type to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="free">Free Lesson -- 0$</SelectItem>
+                  <SelectItem value="casual">Casual Lesson -- 10$</SelectItem>
+                  <SelectItem value="serious">Serious Lesson -- 50$</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="transaction"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                What is Paypal transcation ID of your payment? 
+                What is Paypal transcation ID of your payment?
                 <span className="text-red-500">*</span>
                 <div className="flex flex-col gap-2 p-3">
-                  <span>
-                    <Link target="_blank" href="https://www.paypal.com/paypalme/JonathanPeterson611" className="flex flex-row items-center gap-1">
-                     1. Click this link to send me the payment via paypal: <span className="text-blue-500">JonathanPeterson611</span><FaExternalLinkAlt />
+                  <Link
+                    target="_blank"
+                    href="https://www.paypal.com/paypalme/JonathanPeterson611"
+                    className="flex flex-row items-center justify-start gap-1"
+                  >
+                    1. Click this link:{" "}
+                    <span className="text-blue-500">JonathanPeterson611</span>
+                    <FaExternalLinkAlt />
+                  </Link>
 
-                    </Link>
-                  </span>
+                  <span>2. Send me the payment for the selected lesson</span>
                   <span>2. Go to your email</span>
                   <span>3. Open the email you just received from paypal</span>
                   <span>4. Copy the transcation ID from the email</span>
-                  <span>5. Enter your Paypal transcation ID in the field below</span>
+                  <span>
+                    5. Enter your Paypal transcation ID in the field below
+                  </span>
                 </div>
               </FormLabel>
               <FormControl>
-                <Input className="bg-[#36393e]" {...field} />
+                <Input
+                  className="bg-[#36393e]"
+                  placeholder="Leave it empty if the lesson is free"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
