@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 import type { DateValue } from "@react-aria/calendar";
 import { useLocale } from "@react-aria/i18n";
-import { getAvailableTimes, getOffset } from "./available-times";
+import { convertTimesToDate, getAvailableTimes, getOffset } from "./available-times";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getAvaiavleTimesbyDate } from "~/server/lesson";
@@ -32,13 +32,14 @@ export function RightPanel({
     })
     .split(" ");
 
-  const workingTimes = getAvailableTimes(getOffset())
+  const workingHours = getAvailableTimes(getOffset())
+  const realWorkingHours = convertTimesToDate(workingHours);
 
   const dateQuery = useSearchParams().get("date")!;
 
   const { data: avaiavleTimesbyDate, refetch } = useQuery({
     queryKey: ["allURL"],
-    queryFn: () => getAvaiavleTimesbyDate(dateQuery, workingTimes),
+    queryFn: () => getAvaiavleTimesbyDate(dateQuery, realWorkingHours),
   });
 
   useEffect(() => {

@@ -103,21 +103,16 @@ export async function createLesson(lesson: LessonInsert) {
 
 export async function getAvaiavleTimesbyDate(
   date: string,
-  workingHours: {
+  realWorkingHours: {
     "12": string;
     "24": string;
+    time: Date;
   }[],
 ) {
   const bookedHours = await db
     .select()
     .from(lessonSchema)
     .where(eq(lessonSchema.date, date));
-
-  const realWorkingHours = convertTimesToDate(workingHours);
-
-  if (!realWorkingHours) {
-    return [];
-  }
 
   return findAvailableHours(realWorkingHours, bookedHours);
 }
