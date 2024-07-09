@@ -74,9 +74,6 @@ export default function FormPanel() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: user?.username
-        ? user?.username
-        : `${user?.firstName} ${user?.lastName}`,
       discord: user?.externalAccounts.some(
         (account) => account.provider === "discord",
       )
@@ -177,8 +174,7 @@ export default function FormPanel() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                What is the site that you play on the most -- put a link to your
-                profile.
+                The site that you play on the most—put a link to your profile.
                 <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
@@ -225,7 +221,7 @@ export default function FormPanel() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                What is Paypal transcation ID of your payment?
+                What is PayPal transcation ID of your payment?
                 <span className="text-red-500">*</span>
                 <div className="flex flex-col gap-2 p-3">
                   <Link
@@ -240,10 +236,10 @@ export default function FormPanel() {
 
                   <span>2. Send me the payment for the selected lesson</span>
                   <span>2. Go to your email</span>
-                  <span>3. Open the email you just received from paypal</span>
+                  <span>3. Open the email you just received from PayPal</span>
                   <span>4. Copy the transcation ID from the email</span>
                   <span>
-                    5. Enter your Paypal transcation ID in the field below
+                    5. Enter your PayPal transcation ID in the field below
                   </span>
                 </div>
               </FormLabel>

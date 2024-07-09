@@ -113,6 +113,7 @@ export async function getAvaiavleTimesbyDate(
     .select()
     .from(lessonSchema)
     .where(eq(lessonSchema.date, date));
+    console.log(bookedHours)
 
   return findAvailableHours(realWorkingHours, bookedHours);
 }

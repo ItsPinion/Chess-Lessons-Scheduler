@@ -1,4 +1,6 @@
 "use client";
+
+import { SiLichess } from "react-icons/si";
 import { FaChessPawn } from "react-icons/fa";
 import { SiDiscord } from "react-icons/si";
 import { ImYoutube } from "react-icons/im";
@@ -48,18 +50,15 @@ export function MainNavigationMenu({
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
+              <li className="row-span-4">
                 <NavigationMenuLink asChild>
                   <a
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/book"
                   >
                     <div className="mb-2 mt-4 text-lg font-medium">
-                      Book a Lesson
+                      Where You Can Find Me
                     </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
-                    Schedule a lesson with Me
-                    </p>
                   </a>
                 </NavigationMenuLink>
               </li>
@@ -67,7 +66,8 @@ export function MainNavigationMenu({
                 <ImYoutube className="mr-2 h-16 w-16 text-[#8d1313]" />
 
                 <ListItem
-                  href="https://discord.com/users/1023317171876671509"
+                  target="_blank"
+                  href="https://www.youtube.com/@JonaPeter"
                   title="Youtube"
                   className="px-auto flex flex-col"
                 >
@@ -75,20 +75,38 @@ export function MainNavigationMenu({
                 </ListItem>
               </span>
               <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#4f75ff8b] px-4">
-                <SiDiscord className="mr-2 h-16 w-16 text-[#4f75ff]"/>
+                <SiDiscord className="mr-2 h-16 w-16 text-[#4f75ff]" />
 
-                <ListItem href="https://discord.gg/ReeHfWQSMn" title="Discord Server">
+                <ListItem
+                  target="_blank"
+                  href="https://discord.gg/SBHnfXWrWt"
+                  title="Discord Server"
+                >
                   Meet the community and ask questions about chess
                 </ListItem>
               </span>
 
-              <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#16a2378b] px-4"> 
-              <FaChessPawn className="mr-2 h-16 w-16 text-[#16a237]"/>
+              <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#16a2378b] px-4">
+                <FaChessPawn className="mr-2 h-16 w-16 text-[#16a237]" />
 
-              <ListItem href="https://www.chess.com/member/jpetersonchess" title="Chess.com">
-                Visit my chess.com profile and see what I play
-              </ListItem>
+                <ListItem
+                  target="_blank"
+                  href="https://www.chess.com/member/jpetersonchess"
+                  title="Chess.com"
+                >
+                  Visit my chess.com profile and see what I play
+                </ListItem>
+              </span>
+              <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#77797c8b] px-4">
+                <SiLichess className="mr-2 h-16 w-16 text-[#77797c]" />
 
+                <ListItem
+                  target="_blank"
+                  href="https://lichess.org/@/Tenacious123"
+                  title="Chess.com"
+                >
+                  Visit my lichess profile and see what I play
+                </ListItem>
               </span>
             </ul>
           </NavigationMenuContent>

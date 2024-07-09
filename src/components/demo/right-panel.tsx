@@ -6,13 +6,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 import type { DateValue } from "@react-aria/calendar";
 import { useLocale } from "@react-aria/i18n";
-import { convertTimesToDate, getAvailableTimes, getOffset } from "./available-times";
+import {
+  convertTimesToDate,
+  getAvailableTimes,
+  getOffset,
+} from "./available-times";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getAvaiavleTimesbyDate } from "~/server/lesson";
 import { useEffect } from "react";
+import { Skeleton } from "../ui/skeleton";
 
-export function RightPanel({
+import { waveform } from "ldrs";
+
+waveform.register();
+
+export default function  RightPanel({
   date,
   timeZone,
   weeksInMonth,
@@ -32,12 +41,16 @@ export function RightPanel({
     })
     .split(" ");
 
-  const workingHours = getAvailableTimes(getOffset())
+  const workingHours = getAvailableTimes(getOffset());
   const realWorkingHours = convertTimesToDate(workingHours);
 
   const dateQuery = useSearchParams().get("date")!;
 
-  const { data: avaiavleTimesbyDate, refetch } = useQuery({
+  const {
+    data: avaiavleTimesbyDate,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["allURL"],
     queryFn: () => getAvaiavleTimesbyDate(dateQuery, realWorkingHours),
   });
@@ -76,9 +89,27 @@ export function RightPanel({
               maxHeight: weeksInMonth > 5 ? "380px" : "320px",
             }}
           >
-            {avaiavleTimesbyDate?.length ? (
+            {isLoading ? (
+              // Show skeleton loaders while loading
               <div className="grid gap-2 pr-3">
-                {avaiavleTimesbyDate?.map((availableTime) => (
+                {workingHours?.map((workingHour) => (
+                  <Button
+                    className="text-white"
+                    key={workingHour[time as "12" | "24"]}
+                  >
+                    <l-waveform
+                      size="30"
+                      stroke="3.5"
+                      speed="1"
+                      color="white"
+                    ></l-waveform>
+                  </Button>
+                ))}
+              </div>
+            ) : avaiavleTimesbyDate && avaiavleTimesbyDate?.length > 0 ? (
+              // Show available times if there are any
+              <div className="grid gap-2 pr-3">
+                {avaiavleTimesbyDate.map((availableTime) => (
                   <Button
                     className="text-white"
                     onClick={() =>
@@ -93,6 +124,7 @@ export function RightPanel({
                 ))}
               </div>
             ) : (
+              // Show message if no times are available
               <p className="text-center text-muted-foreground">
                 All the time slots are booked for this date
               </p>

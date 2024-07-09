@@ -18,6 +18,9 @@ import dynamic from "next/dynamic";
 const FormPanel = dynamic(() => import("./form-panel"), {
   ssr: false,
 });
+const RightPanel = dynamic(() => import("./right-panel"), {
+  ssr: false,
+});
 
 function addDays(date: CalendarDate, days: number): CalendarDate {
   const newDate = new Date(date.toString());
@@ -30,7 +33,6 @@ function addDays(date: CalendarDate, days: number): CalendarDate {
 }
 
 import { LeftPanel } from "./left-panel";
-import { RightPanel } from "./right-panel";
 
 export function Demo() {
   const router = useRouter();
