@@ -15,7 +15,6 @@ import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getAvaiavleTimesbyDate } from "~/server/lesson";
 import { useEffect } from "react";
-import { Skeleton } from "../ui/skeleton";
 
 import { waveform } from "ldrs";
 
@@ -50,6 +49,7 @@ export default function  RightPanel({
     data: avaiavleTimesbyDate,
     refetch,
     isLoading,
+    isRefetching
   } = useQuery({
     queryKey: ["allURL"],
     queryFn: () => getAvaiavleTimesbyDate(dateQuery, realWorkingHours),
@@ -89,8 +89,7 @@ export default function  RightPanel({
               maxHeight: weeksInMonth > 5 ? "380px" : "320px",
             }}
           >
-            {isLoading ? (
-              // Show skeleton loaders while loading
+            {(isLoading || isRefetching) ? (
               <div className="grid gap-2 pr-3">
                 {workingHours?.map((workingHour) => (
                   <Button
@@ -107,7 +106,6 @@ export default function  RightPanel({
                 ))}
               </div>
             ) : avaiavleTimesbyDate && avaiavleTimesbyDate?.length > 0 ? (
-              // Show available times if there are any
               <div className="grid gap-2 pr-3">
                 {avaiavleTimesbyDate.map((availableTime) => (
                   <Button
@@ -124,7 +122,6 @@ export default function  RightPanel({
                 ))}
               </div>
             ) : (
-              // Show message if no times are available
               <p className="text-center text-muted-foreground">
                 All the time slots are booked for this date
               </p>

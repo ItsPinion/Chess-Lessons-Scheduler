@@ -28,6 +28,7 @@ export function getAvailableTimes(offset: number) {
     return { 12: adjusted12, 24: adjusted24 };
   });
 }
+
 export const convertTimesToDate = (
   workingHours: {
     "12": string;
@@ -38,37 +39,44 @@ export const convertTimesToDate = (
   "12": string;
   "24": string;
 }[] => {
-  return workingHours.map((time) => {
-    const timeValue = time["12"].split(":").join(" ");
+  return workingHours
+    .map((time) => {
+      const timeValue = time["12"].split(":").join(" ");
 
-    const match = timeValue.match(/^(\d{1,2}) (\d{2})([ap]m)?$/i);
-    if (!match) {
-      console.error("Invalid time format");
-      return null;
-    }
+      const match = timeValue.match(/^(\d{1,2}) (\d{2})([ap]m)?$/i);
+      if (!match) {
+        console.error("Invalid time format");
+        return null;
+      }
 
-    let hours = parseInt(match[1]!, 10);
-    const minutes = parseInt(match[2]!, 10);
-    const isPM = match[3]?.toLowerCase() === "pm";
+      let hours = parseInt(match[1]!, 10);
+      const minutes = parseInt(match[2]!, 10);
+      const isPM = match[3]?.toLowerCase() === "pm";
 
-    if ((isPM && (hours < 1 || hours > 12)) || (!isPM && (hours < 0 || hours > 11))) {
-      console.error("Time out of range (1-12) in 12-hour format");
-      return null;
-    }
+      if (
+        (isPM && (hours < 1 || hours > 12)) ||
+        (!isPM && (hours < 0 || hours > 11))
+      ) {
+        console.error("Time out of range (1-12) in 12-hour format");
+        return null;
+      }
 
-    if (isPM && hours !== 12) {
-      hours += 12;
-    } else if (!isPM && hours === 12) {
-      hours = 0;
-    }
+      if (isPM && hours !== 12) {
+        hours += 12;
+      } else if (!isPM && hours === 12) {
+        hours = 0;
+      }
 
-    const currentDate = new Date();
-    currentDate.setHours(hours, minutes);
+      const currentDate = new Date();
+      currentDate.setHours(hours, minutes);
 
-    return { ...time, time: currentDate };
-  }).filter((time): time is { time: Date; "12": string; "24": string; } => time !== null); // Correctly filter out null values
+      return { ...time, time: currentDate };
+    })
+    .filter(
+      (time): time is { time: Date; "12": string; "24": string } =>
+        time !== null,
+    ); // Correctly filter out null values
 };
-
 
 export const findAvailableHours = (
   workingHours: {
@@ -94,38 +102,8 @@ export const findAvailableHours = (
   );
 };
 
-export function formatTime(date: Date) {
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  const minutesStr = minutes.toString().padStart(2, "0");
-
-  const time24 = `${hours}:${minutesStr}`;
-
-  const ampm = hours >= 12 ? "pm" : "am";
-  hours = hours % 12;
-
-  const time12 = `${hours}:${minutesStr}${ampm}`;
-
-  return JSON.stringify({
-    "12": time12,
-    "24": time24,
-  });
-}
-
 export function getOffset() {
   const userDate = new Date();
   const offset = -userDate.getTimezoneOffset() / 60;
   return offset;
-}
-
-export function getAvaiavleTimes(
-  workingTimes: string[],
-  selectedTimes: string[],
-): string[] {
-  // Create a Set from the second array for quick lookup
-  const set2 = new Set(selectedTimes);
-
-  // Filter elements in array1 that are not in array2
-  return workingTimes.filter((element) => !set2.has(element));
 }

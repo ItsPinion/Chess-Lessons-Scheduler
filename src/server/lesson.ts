@@ -4,14 +4,9 @@ import { db } from "./db";
 import { and, eq } from "drizzle-orm";
 import { lessonSchema } from "./db/schema";
 import type { LessonInsert } from "./db/schema";
-import {
-  convertTimesToDate,
-  findAvailableHours,
-  formatTime,
-  getAvaiavleTimes,
-} from "~/components/demo/available-times";
+import { findAvailableHours } from "~/components/demo/available-times";
 import { env } from "~/env";
-import { createTransport, type TransportOptions } from "nodemailer";
+import { createTransport } from "nodemailer";
 import { format, toZonedTime } from "date-fns-tz";
 
 export async function createLesson(lesson: LessonInsert) {
@@ -23,7 +18,7 @@ export async function createLesson(lesson: LessonInsert) {
       user: env.EMAIL_HOST,
       pass: env.EMAIL_PASSWORD,
     },
-  } as TransportOptions);
+  });
 
   const alreadySelectedBySomeone = await db
     .select()
@@ -113,7 +108,7 @@ export async function getAvaiavleTimesbyDate(
     .select()
     .from(lessonSchema)
     .where(eq(lessonSchema.date, date));
-    console.log(bookedHours)
+  console.log(bookedHours);
 
   return findAvailableHours(realWorkingHours, bookedHours);
 }
