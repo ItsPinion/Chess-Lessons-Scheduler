@@ -17,9 +17,9 @@ export function AboutMe() {
         <p className="leading-7 [&:not(:first-child)]:mt-6">
           Hello everyone, my name is{" "}
           <b className="text-lime-500">Jonathan Peterson</b>, and I am a
-          20-year-old <b className="text-orange-500">chess coach</b> from the
+          20-year-old <b className="text-orange-400">chess coach</b> from the
           U.S. I started playing chess around the{" "}
-          <b className="text-red-500">ages of 7 - 9</b>. Eventually, I started
+          <b className="text-amber-500">ages of 7 - 9</b>. Eventually, I started
           playing online and in in-person tournaments. This led to one of my
           proudest achievements, which was winning{" "}
           <b className="text-orange-400">2nd place</b> at the 2020 MS State

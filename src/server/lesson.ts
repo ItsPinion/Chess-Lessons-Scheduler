@@ -40,6 +40,13 @@ export async function createLesson(lesson: LessonInsert) {
     .from(lessonSchema)
     .where(and(eq(lessonSchema.transaction, lesson.transaction)));
 
+  if (lesson.transaction && oldTransaction[0]) {
+    return {
+      message: "This transaction id is already used you or someone else",
+      success: false,
+    };
+  }
+
   if (alreadyBookedOnce[0]) {
     return {
       message: "You already booked one slot for this date",
@@ -51,13 +58,6 @@ export async function createLesson(lesson: LessonInsert) {
     console.log(alreadySelectedBySomeone);
     return {
       message: "This slot already booked",
-      success: false,
-    };
-  }
-
-  if (oldTransaction[0]) {
-    return {
-      message: "This transaction id is already used you or someone else",
       success: false,
     };
   }

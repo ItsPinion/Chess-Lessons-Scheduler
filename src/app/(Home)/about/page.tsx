@@ -12,7 +12,7 @@ export default function AboutPage() {
           <p className="text-lg">
             Hello everyone, my name is{" "}
             <span className="text-primary">Jonathan Peterson</span>. I&#39;m a{" "}
-            <span className="text-primary">20-year-old</span> who lives in{" "}
+            <span className="text-primary">21-year-old</span> who lives in{" "}
             <span className="text-primary">
               Mississippi in the United States
             </span>
@@ -109,7 +109,7 @@ export default function AboutPage() {
       </p>
       <p className="text-lg">
         Now in the present, I now have{" "}
-        <span className="text-primary">10+ students</span>, so this shall be an
+        <span className="text-primary">30+ students</span>, so this shall be an
         interesting time!
       </p>
       <b className="mx-auto my-10 text-4xl text-primary">

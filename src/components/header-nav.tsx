@@ -53,10 +53,10 @@ export function MainNavigationMenu({
               <li className="row-span-4">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                    className="flex h-full w-full select-none flex-col justify-center items-center text-center  rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/book"
                   >
-                    <div className="mb-2 mt-4 text-lg font-medium">
+                    <div className="mb-2 mt-4 font-bold text-5xl text-primary">
                       Where You Can Find Me
                     </div>
                   </a>
@@ -71,7 +71,7 @@ export function MainNavigationMenu({
                   title="Youtube"
                   className="px-auto flex flex-col"
                 >
-                  Watch interesting videos about chess by me.
+                  Watch game reviews here.
                 </ListItem>
               </span>
               <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#4f75ff8b] px-4">
@@ -82,7 +82,7 @@ export function MainNavigationMenu({
                   href="https://discord.gg/SBHnfXWrWt"
                   title="Discord Server"
                 >
-                  Meet the community and ask questions about chess
+                  Connect with my students here.
                 </ListItem>
               </span>
 
@@ -94,7 +94,7 @@ export function MainNavigationMenu({
                   href="https://www.chess.com/member/jpetersonchess"
                   title="Chess.com"
                 >
-                  Visit my chess.com profile and see what I play
+                  Visit my Chess.com profile here.
                 </ListItem>
               </span>
               <span className="flex flex-row items-center justify-start gap-3 rounded-md bg-[#77797c8b] px-4">
@@ -103,34 +103,20 @@ export function MainNavigationMenu({
                 <ListItem
                   target="_blank"
                   href="https://lichess.org/@/Tenacious123"
-                  title="Chess.com"
+                  title="Lichess.com"
                 >
-                  Visit my lichess profile and see what I play
+                  Visit my Lichess profile here.
                 </ListItem>
               </span>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            Lessons
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
+          <Link href="/pricing" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle() + "font-bold"}>
+              Pricing
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/about" legacyBehavior passHref>

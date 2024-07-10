@@ -17,8 +17,8 @@ const footerLinks = [
   },
   {
     name: "Discord",
-    href: "https://discord.com/users/1023317171876671509",
-    display: "jonapeter",
+    href: "https://discord.com/users/820820684539691038",
+    display: "Spicyflier",
     icon: FaDiscord,
   },
   {
@@ -59,7 +59,7 @@ export function Footer() {
         >
           <div className="mb-auto flex w-[50%] flex-col items-center justify-start gap-3">
             <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-              Info.
+              Info
             </h2>
             <div className="flex flex-col items-start gap-7">
               {footerLinks.map((link) => (
@@ -69,7 +69,7 @@ export function Footer() {
                   className="flex flex-row items-center justify-center gap-1 text-lg font-medium leading-none"
                 >
                   <link.icon />
-                  <b> {link.name} : </b> {link.display}
+                  <b> {link.name}: </b> {link.display}
                 </Link>
               ))}
             </div>

@@ -75,7 +75,7 @@ export function FooterForm() {
               <FormControl>
                 <Input
                   className="border-4 border-blue-900 bg-[#36393e]"
-                  placeholder="shadcn"
+                  placeholder="Jone"
                   {...field}
                 />
               </FormControl>

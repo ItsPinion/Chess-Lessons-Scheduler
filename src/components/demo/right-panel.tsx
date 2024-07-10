@@ -20,7 +20,7 @@ import { waveform } from "ldrs";
 
 waveform.register();
 
-export default function  RightPanel({
+export default function RightPanel({
   date,
   timeZone,
   weeksInMonth,
@@ -42,14 +42,14 @@ export default function  RightPanel({
 
   const workingHours = getAvailableTimes(getOffset());
   const realWorkingHours = convertTimesToDate(workingHours);
-
+  const currentTime = new Date(new Date().getTime() + 30 * 60000);
   const dateQuery = useSearchParams().get("date")!;
 
   const {
     data: avaiavleTimesbyDate,
     refetch,
     isLoading,
-    isRefetching
+    isRefetching,
   } = useQuery({
     queryKey: ["allURL"],
     queryFn: () => getAvaiavleTimesbyDate(dateQuery, realWorkingHours),
@@ -89,7 +89,7 @@ export default function  RightPanel({
               maxHeight: weeksInMonth > 5 ? "380px" : "320px",
             }}
           >
-            {(isLoading || isRefetching) ? (
+            {isLoading || isRefetching ? (
               <div className="grid gap-2 pr-3">
                 {workingHours?.map((workingHour) => (
                   <Button
@@ -107,19 +107,21 @@ export default function  RightPanel({
               </div>
             ) : avaiavleTimesbyDate && avaiavleTimesbyDate?.length > 0 ? (
               <div className="grid gap-2 pr-3">
-                {avaiavleTimesbyDate.map((availableTime) => (
-                  <Button
-                    className="text-white"
-                    onClick={() =>
-                      handleChangeAvailableTime(
-                        availableTime[time as "12" | "24"],
-                      )
-                    }
-                    key={availableTime[time as "12" | "24"]}
-                  >
-                    {availableTime[time as "12" | "24"]}
-                  </Button>
-                ))}
+                {avaiavleTimesbyDate
+                  .filter((availableTime) => availableTime.time > currentTime)
+                  .map((availableTime) => (
+                    <Button
+                      className="text-white"
+                      onClick={() =>
+                        handleChangeAvailableTime(
+                          availableTime[time as "12" | "24"],
+                        )
+                      }
+                      key={availableTime[time as "12" | "24"]}
+                    >
+                      {availableTime[time as "12" | "24"]}
+                    </Button>
+                  ))}
               </div>
             ) : (
               <p className="text-center text-muted-foreground">
