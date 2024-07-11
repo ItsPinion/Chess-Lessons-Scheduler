@@ -41,9 +41,9 @@ export default function RightPanel({
     .split(" ");
 
   const workingHours = getAvailableTimes(getOffset());
-  const realWorkingHours = convertTimesToDate(workingHours);
-  const currentTime = new Date(new Date().getTime() + 30 * 60000);
   const dateQuery = useSearchParams().get("date")!;
+  const realWorkingHours = convertTimesToDate(dateQuery, workingHours);
+  const currentTime = new Date(new Date().getTime() + 30 * 60000);
 
   const {
     data: avaiavleTimesbyDate,
@@ -61,6 +61,10 @@ export default function RightPanel({
       await refetch();
     }
     void fetchData();
+    console.log(
+      avaiavleTimesbyDate?.map((x) => x.time.getTime()),
+      currentTime.getTime(),
+    );
   }, [dateQuery, refetch]);
 
   return (
@@ -107,7 +111,7 @@ export default function RightPanel({
               </div>
             ) : avaiavleTimesbyDate && avaiavleTimesbyDate?.length > 0 ? (
               <div className="grid gap-2 pr-3">
-                {avaiavleTimesbyDate
+                {avaiavleTimesbyDate.sort((a, b) => a.time.getTime() - b.time.getTime())
                   .filter((availableTime) => availableTime.time > currentTime)
                   .map((availableTime) => (
                     <Button

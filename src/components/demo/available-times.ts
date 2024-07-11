@@ -29,7 +29,7 @@ export function getAvailableTimes(offset: number) {
   });
 }
 
-export const convertTimesToDate = (
+export const convertTimesToDate = (dateQuery: string,
   workingHours: {
     "12": string;
     "24": string;
@@ -67,7 +67,7 @@ export const convertTimesToDate = (
         hours = 0;
       }
 
-      const currentDate = new Date();
+      const currentDate = new Date(dateQuery);
       currentDate.setHours(hours, minutes);
 
       return { ...time, time: currentDate };
