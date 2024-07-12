@@ -71,11 +71,11 @@ export function FooterForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
                   className="border-4 border-blue-900 bg-[#36393e]"
-                  placeholder="Jone"
+                  placeholder="Jonathan Peterson"
                   {...field}
                 />
               </FormControl>
@@ -109,7 +109,7 @@ export function FooterForm() {
               <FormControl>
                 <Input
                   className="border-4 border-blue-900 bg-[#36393e]"
-                  placeholder="Contact"
+                  placeholder="Subject"
                   {...field}
                 />
               </FormControl>

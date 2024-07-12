@@ -61,10 +61,6 @@ export default function RightPanel({
       await refetch();
     }
     void fetchData();
-    console.log(
-      avaiavleTimesbyDate?.map((x) => x.time.getTime()),
-      currentTime.getTime(),
-    );
   }, [dateQuery, refetch]);
 
   return (

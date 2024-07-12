@@ -2,6 +2,7 @@
 import { Demo } from "~/components/demo";
 import { Suspense } from "react";
 import { redirect, usePathname } from "next/navigation";
+import { format } from "date-fns-tz";
 
 export default function BookPage({
   searchParams,
@@ -12,7 +13,7 @@ export default function BookPage({
 
   if (!searchParams.date) {
     const today = new Date();
-    const dateString = today.toISOString().slice(0, 10);
+    const dateString = format(today, "yyyy-MM-dd");
 
     redirect(pathname + "?date=" + dateString);
   }

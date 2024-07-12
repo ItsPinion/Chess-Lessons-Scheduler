@@ -24,6 +24,7 @@ export function CalendarHeader({
 		timeZone: state.timeZone,
 	});
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [monthName, _, year] = monthDateFormatter
 		.formatToParts(state.visibleRange.start.toDate(state.timeZone))
 		.map((part) => part.value);

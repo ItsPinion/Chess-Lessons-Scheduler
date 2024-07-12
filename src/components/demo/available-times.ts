@@ -10,6 +10,22 @@ export const workingHours = [
   { "12": "10:00pm", "24": "22:00" },
 ];
 
+export function getPrevious30thDay(date: number): number {
+  const today = new Date(date);
+  const previous30th = new Date(today);
+  previous30th.setDate(today.getDate() - 30);
+
+  return previous30th.getTime();
+}
+
+export function getPrevious7thDay(date: number): number {
+  const today = new Date(date);
+  const sevenDaysAgo = new Date(today);
+  sevenDaysAgo.setDate(today.getDate() - 7);
+
+  return sevenDaysAgo.getTime();
+}
+
 function convertTo12HourFormat(hours: number, minutes: number): string {
   const period = hours >= 12 ? "pm" : "am";
   const adjustedHours = hours % 12 || 12;
@@ -29,7 +45,8 @@ export function getAvailableTimes(offset: number) {
   });
 }
 
-export const convertTimesToDate = (dateQuery: string,
+export const convertTimesToDate = (
+  dateQuery: string,
   workingHours: {
     "12": string;
     "24": string;

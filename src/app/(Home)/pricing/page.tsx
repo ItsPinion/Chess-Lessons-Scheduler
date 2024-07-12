@@ -1,22 +1,15 @@
 "use client";
 
-import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
-import { Button } from "~/components/ui/button";
-import React, { useState } from "react";
 import { cn } from "~/lib/utils";
 
-type PricingSwitchProps = {
-  onSwitch: (value: string) => void;
-};
 
 type PricingCardProps = {
   isYearly?: boolean;
@@ -37,24 +30,14 @@ const PricingHeader = ({
   subtitle: string;
 }) => (
   <section className="text-center">
-    <h2 className="text-3xl font-bold text-primary hover:drop-shadow-[0px_0px_10px_rgba(50,100,255,1)]">{title}</h2>
+    <h2 className="text-3xl font-bold text-primary hover:drop-shadow-[0px_0px_10px_rgba(50,100,255,1)]">
+      {title}
+    </h2>
     <p className="pt-1 text-xl">{subtitle}</p>
     <br />
   </section>
 );
 
-const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
-  <Tabs defaultValue="0" className="mx-auto w-40" onValueChange={onSwitch}>
-    <TabsList className="px-2 py-6">
-      <TabsTrigger value="0" className="text-base">
-        Monthly
-      </TabsTrigger>
-      <TabsTrigger value="1" className="text-base">
-        Yearly
-      </TabsTrigger>
-    </TabsList>
-  </Tabs>
-);
 
 const PricingCard = ({
   title,
@@ -66,9 +49,9 @@ const PricingCard = ({
 }: PricingCardProps) => (
   <Card
     className={cn(
-      `flex w-72 flex-col bg-[#151719] justify-between py-1 ${popular ? "border-primary border-2 bg-[#0c0d0e]" : "border-zinc-700"} mx-auto sm:mx-0`,
+      `flex w-80 flex-col justify-between bg-[#151719] py-1 ${popular ? "border-2 border-primary bg-[#0c0d0e]" : "border-zinc-700"} mx-auto sm:mx-0`,
       {
-        "animate-background-shine bg-[length:200%_100%] transition-colors bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]":
+        "animate-background-shine bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors":
           exclusive,
       },
     )}
@@ -84,15 +67,14 @@ const PricingCard = ({
             /Lesson
           </span>
         </div>
-        <CardDescription className="h-24 pt-1.5">{description}</CardDescription>
+        <CardDescription className="h-28 pt-1.5">{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         {features.map((feature: string) => (
-          <CheckItem key={feature} text={feature} />
+          <CheckItem key={feature} text={feature}/>
         ))}
       </CardContent>
     </div>
-   
   </Card>
 );
 
@@ -108,33 +90,38 @@ export default function Page() {
     {
       title: "Free",
       monthlyPrice: 0,
-      description: "Only choose this option if you literally have no money. Students that are regularly paying me, that is, at least once every 30 days, do not choose this option.",
+      description:
+        "Please select this option only if you are in a financial emergency. Regular students who make payments at least once every 30 days are not eligible for this option.",
       features: [
         "Free Lesson",
-        "Lesson every 30 days",
-        "One hour of Lesson",
+        "One lesson every 30 days",
+        "One hour of lesson",
       ],
     },
     {
       title: "Casual",
       monthlyPrice: 10,
-      description: "For Students who doesn't really care about improving their chess, but care enough to pay money. Don't expect me to go all in and help you out with your dream rating. ",
+      description:
+        "For students who are more focused on maintaining their chess skills than on improvement, please note that my assistance will not be geared toward achieving your highest potential rating. ",
       features: [
-        "1 Lesson every day",
+        "Weekly lessons",
         "One hour of lesson",
-        "Moderate level of care",
+        "Limited commitment to improvement",
+        "First Casual Lesson is complimentary",
       ],
       popular: true,
     },
     {
       title: "Serious",
       monthlyPrice: 20,
-      description: "For students who really care about improving their chess. We will go all in and focus on improving every area of your chess that needs improvement, one step at a time.",
+      description:
+        "For students committed to improving their chess, we will focus on enhancing specific areas of your game. Our approach will be thorough, addressing one aspect at a time to help you reach your goals.",
       features: [
-        "1 lesson every hour",
+        "One lesson every week",
         "One hour of lesson",
-        "Example Feature Number 3",
-        "Going all in to reach your dream",
+        "Serious focus on skill improvement",
+        "Going all in to achieve your goals",
+        "First Serious Lesson is complimentary",
       ],
       exclusive: true,
     },

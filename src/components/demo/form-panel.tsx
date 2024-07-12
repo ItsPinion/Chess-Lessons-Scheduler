@@ -60,9 +60,12 @@ const FormSchema = z.object({
     message: "Additional info. must be at most 1000 characters",
   }),
   transaction: z.string(),
-  lesson_type: z.enum(["free", "casual", "serious"], {
-    required_error: "Please select an lesson type first.",
-  }),
+  lesson_type: z.enum(
+    ["Free", "First Casual", "First Serious", "Casual", "Serious"],
+    {
+      required_error: "Please select an lesson type first.",
+    },
+  ),
 });
 
 export default function FormPanel() {
@@ -106,6 +109,7 @@ export default function FormPanel() {
   if (typeof window === "undefined") {
     return null;
   }
+  console.log(searchParams.get("slot")!);
 
   return !isLoading ? (
     <Form {...form}>
@@ -115,7 +119,7 @@ export default function FormPanel() {
             await mutateAsync({
               user_id: user?.id ?? "0",
               ...data,
-              time: new Date(searchParams.get("slot")!),
+              time: new Date(searchParams.get("slot")!).getTime(), 
               date: searchParams.get("date")!,
               offset: getOffset() * 10,
             }),
@@ -204,9 +208,15 @@ export default function FormPanel() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="free">Free Lesson -- 0$</SelectItem>
-                  <SelectItem value="casual">Casual Lesson -- 10$</SelectItem>
-                  <SelectItem value="serious">Serious Lesson -- 50$</SelectItem>
+                  <SelectItem value="Free">Free Lesson -- 0$</SelectItem>
+                  <SelectItem value="First Casual">
+                    First Casual Lesson -- 0$
+                  </SelectItem>
+                  <SelectItem value="First Serious">
+                    First Serious Lesson -- 0$
+                  </SelectItem>
+                  <SelectItem value="Casual">Casual Lesson -- 10$</SelectItem>
+                  <SelectItem value="Serious">Serious Lesson -- 20$</SelectItem>
                 </SelectContent>
               </Select>
 

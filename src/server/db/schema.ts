@@ -22,10 +22,13 @@ export const lessonSchema = createTable("lesson", {
   chess: text("chess", { length: 256 }).notNull(),
   notes: text("notes", { length: 256 }),
   date: text("date", { length: 256 }).notNull(),
-  time: integer("time", { mode: "timestamp" }).notNull().unique(),
+  time: integer("time", { mode: "number" }).notNull().unique(),
   offset: integer("offset", { mode: "number" }).notNull(),
-  transaction: text("transaction", { length: 256 }).notNull().unique(),
-  lesson_type: text("lesson_type", { length: 256 , enum: ["free", "casual", "serious"] }).notNull(),
+  transaction: text("transaction", { length: 256 }).notNull(),
+  lesson_type: text("lesson_type", {
+    length: 256,
+    enum: ["Free", "First Casual", "First Serious", "Casual", "Serious"],
+  }).notNull(),
 });
 
 export type LessonInsert = typeof lessonSchema.$inferInsert;

@@ -24,7 +24,7 @@ const footerLinks = [
   {
     name: "Youtube",
     href: "https://www.youtube.com/@JonaPeter",
-    display: "@JonaPeter",
+    display: "JonaPeter",
     icon: FaYoutube,
   },
   {
