@@ -4,31 +4,24 @@ import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { motion } from "framer-motion";
 import { Chessboard } from "react-chessboard";
-import stockfish from "stockfish";
 
 export function ChessBoard() {
   const [auto, setAuto] = useState(false);
   const [game, setGame] = useState(new Chess());
   const [position, setPosition] = useState(game.fen());
-  const [engine, setEngine] = useState<any | null>(null);
 
-  useEffect(() => {
-    const newEngine = stockfish();
-    newEngine.onmessage = (event: string) => {
-      if (event.startsWith("bestmove")) {
-        const bestMove = event.split(" ")[1];
-        game.move(bestMove);
-        setPosition(game.fen());
-      }
-    };
-    setEngine(newEngine);
-  }, [game]);
+  const makeRandomMove = () => {
+    const possibleMoves = game.moves();
 
-  const makeEngineMove = () => {
-    if (engine) {
-      engine.postMessage("position fen " + game.fen());
-      engine.postMessage("go depth 15"); // Adjust depth for stronger/weaker moves
-    }
+    if (game.isGameOver() || possibleMoves.length === 0) return; // Check if game is over
+
+    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+    const move = possibleMoves[randomIndex];
+
+    if (move === undefined) return; // Check if move is undefined
+
+    game.move(move);
+    setPosition(game.fen());
   };
 
   const onDrop = (sourceSquare: string, targetSquare: string) => {
@@ -44,9 +37,9 @@ export function ChessBoard() {
 
     setPosition(game.fen());
 
-    // Make the engine move after a short delay
+    // Make a random move for the computer after a short delay
     setTimeout(() => {
-      makeEngineMove();
+      makeRandomMove();
     }, 500);
 
     return true;
@@ -61,8 +54,8 @@ export function ChessBoard() {
   useEffect(() => {
     if (auto) {
       const interval = setInterval(() => {
-        makeEngineMove();
-      }, 1000); // Make an engine move every second
+        makeRandomMove();
+      }, 1000); // Make a random move every second
 
       return () => clearInterval(interval); // Clear interval on component unmount
     }
