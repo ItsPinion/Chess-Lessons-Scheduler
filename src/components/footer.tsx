@@ -11,32 +11,32 @@ import { usePathname } from "next/navigation";
 const footerLinks = [
   {
     name: "Email",
-    href: "mailto:jonapeter91@gmail.com",
-    display: "jonapeter91@gmail.com",
+    href: "mailto:pinionsnest@gmail.com",
+    display: "pinionsnest@gmail.com",
     icon: AiTwotoneMail,
   },
   {
     name: "Discord",
-    href: "https://discord.com/users/820820684539691038",
-    display: "Spicyflier",
+    href: "https://discord.com/users/774223452680486962",
+    display: "ItsPinion",
     icon: FaDiscord,
   },
   {
     name: "Youtube",
-    href: "https://www.youtube.com/@JonaPeter",
-    display: "JonaPeter",
+    href: "https://www.youtube.com/@ItsPinion",
+    display: "ItsPinion",
     icon: FaYoutube,
   },
   {
     name: "Chess.com",
-    href: "https://www.chess.com/member/jpetersonchess",
-    display: "jpetersonchess",
+    href: "https://www.chess.com/member/ItsPinion",
+    display: "ItsPinion",
     icon: FaChess,
   },
   {
     name: "Lichess",
-    href: "https://lichess.org/@/Tenacious123",
-    display: "Tenacious123",
+    href: "https://lichess.org/@/ItsPinion",
+    display: "ItsPinion",
     icon: SiLichess,
   },
 ];

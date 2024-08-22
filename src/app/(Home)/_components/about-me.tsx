@@ -15,11 +15,15 @@ export function AboutMe() {
           ABOUT ME
         </h1>
         <p className="leading-7 [&:not(:first-child)]:mt-6">
-          Hello everyone, my name is{" "}
-          <b className="text-lime-500">Jonathan Peterson</b>, and I am a
-          20-year-old <b className="text-orange-400">chess coach</b> from the
-          U.S. I started playing chess around the{" "}
-          <b className="text-amber-500">ages of 7 - 9</b>. Eventually, I started
+          Hello everyone, my name is <b className="text-lime-500">Pinion</b>,
+          and I am a 20-year-old <b className="text-orange-400">chess coach</b>{" "}
+          from the Bangladesh.{" "}
+          <span className="text-primary">
+            Actuallt I am not a chess couch, but lets pretend I am lol. All of
+            these are fake info, dont contect me for chess coaching :){" "}
+          </span>{" "}
+          I started playing chess around the{" "}
+          <b className="text-lime-500">ages of 7 - 9</b>. Eventually, I started
           playing online and in in-person tournaments. This led to one of my
           proudest achievements, which was winning{" "}
           <b className="text-orange-400">2nd place</b> at the 2020 MS State

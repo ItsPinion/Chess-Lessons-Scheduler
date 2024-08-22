@@ -21,7 +21,7 @@ export function LeftPanel({
   return (
     <div className="flexflex-col gap-4 border-r pr-6 min-w-[200px]">
       <div className="grid gap-3">
-        <p className="text-gray-12 text-lg font-bold">Jonathan Peterson</p>
+        <p className="text-gray-12 text-lg font-bold">ItsPinion</p>
         {showForm && (
           <div className="text-gray-12 flex">
             <CalendarIcon className="mr-2 size-4" />

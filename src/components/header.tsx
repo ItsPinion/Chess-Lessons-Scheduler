@@ -19,16 +19,15 @@ export function Header() {
   ) {
     return (
       <motion.header
-        className={`static z-50 m-2 flex flex-row items-center justify-between rounded-lg bg-primary px-6  ${isHovered ? "shadow-[0px_0px_20px_rgba(50,100,255,1)]" : ""}`}
+        className={`static z-50 m-2 flex flex-row items-center justify-between rounded-lg bg-primary px-3 py-2  ${isHovered ? "shadow-[0px_0px_20px_rgba(50,100,255,1)]" : ""}`}
         initial={{ opacity: 0.5, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
       >
         <Link href="/" className=" flex flex-col items-center justify-center">
-          <h3 className="text-2xl font-semibold tracking-tight">
-            Jonathan Peterson
+          <h3 className="text-2xl font-semibold tracking-tight font-serif ml-3">
+            ;.; Logo
           </h3>
-          <p className="text-xs leading-7">Chess Coach</p>
         </Link>
         <MainNavigationMenu setIsHovered={setIsHovered} />
         <div className="flex flex-row items-center justify-center gap-3">

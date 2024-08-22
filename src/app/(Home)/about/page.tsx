@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Age } from "../_components/age";
 
 export default function AboutPage() {
   return (
@@ -7,16 +8,27 @@ export default function AboutPage() {
       <h1 className="m-2 mx-auto text-6xl font-bold text-primary hover:drop-shadow-[0px_0px_10px_rgba(50,100,255,1)]">
         About Me
       </h1>
-      <div className="flex flex-row items-center justify-between">
+      <span className="text-transparent/10">
+        Actuallt I am not a chess couch, but lets pretend I am lol. All of these
+        are fake info, dont contect me for chess coaching :) . I made this
+        website for a client but at the end.. like literally at the end.. when I
+        was totally done with the website.... he turn turned out be a scammer.
+        But I thought it would be a waste if I didn&#39;t share it with you all.
+        I spend a lot of time working on this website. The booking systen made
+        me go nuts. Oh and it was my very first website that I made or wanted to
+        make for a client. But sadly this happned. Well nothing will come crying
+        over it... so.. yea... just wanted to share this with you all. Maybe
+        some day I will come back to this website and cringe over it.... or
+        maybe I am gonna die lol, who knows. bye.
+      </span>{" "}
+      <div className="flex flex-col items-center justify-between md:flex-row">
         <div className="flex flex-col gap-3">
           <p className="text-lg">
             Hello everyone, my name is{" "}
-            <span className="text-primary">Jonathan Peterson</span>. I&#39;m a{" "}
-            <span className="text-primary">21-year-old</span> who lives in{" "}
-            <span className="text-primary">
-              Mississippi in the United States
-            </span>
-            . I started playing chess around the{" "}
+            <span className="text-primary">Pinion</span>. I&#39;m a <Age /> who
+            lives in{" "}
+            <span className="text-primary">Dhaka in the Bangladesh</span>. I
+            started playing chess around the{" "}
             <span className="text-primary">ages of 7 - 9</span>. During this
             time I would just play my dad. Later on my dad got a program called{" "}
             <span className="text-primary">Fritz 14</span>. I played that
@@ -26,7 +38,8 @@ export default function AboutPage() {
             that time), I thought, &quot;You know I bet there are chess sites on
             the Internet.&quot; So I typed in{" "}
             <Link
-              href={"https://www.chess.com/member/jpetersonchess"}
+              target="_blank"
+              href={"https://www.chess.com/member/itspinion"}
               className="text-green-500"
             >
               chess.com
@@ -53,11 +66,11 @@ export default function AboutPage() {
           </p>
         </div>
         <Image
-          src="https://static.wixstatic.com/media/a91986_c3f9aa6aca9743eb99138970a9e7337e~mv2.png/v1/fill/w_655,h_742,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/a91986_c3f9aa6aca9743eb99138970a9e7337e~mv2.png"
-          alt="Jonathan Peterson"
+          src="https://cdn.discordapp.com/avatars/774223452680486962/662bdd4cedc162a3387730efd0fdbdc8.webp?size=4096"
+          alt="ItsPinion"
           width={450}
           height={450}
-          className="m-10 rounded-full border-4 border-solid border-primary p-0 hover:shadow-[0px_0px_15px_rgba(50,100,255,1)]"
+          className="m-10 rounded-full border-4 border-solid border-primary p-0 transition-all duration-1000 ease-in-out hover:shadow-[0px_0px_100px_rgba(50,100,255,1)]"
         />
       </div>
       <p className="text-lg">
@@ -109,8 +122,8 @@ export default function AboutPage() {
       </p>
       <p className="text-lg">
         Now in the present, I now have{" "}
-        <span className="text-primary">30+ students</span>, so this shall be an
-        interesting time!
+        <span className="text-primary">3000B+ students ;) </span>, so this shall
+        be an interesting time!
       </p>
       <b className="mx-auto my-10 text-4xl text-primary">
         LET&#39;S WIN SOME CHESS GAMES BOYS & GIRLS!

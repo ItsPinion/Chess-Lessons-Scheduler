@@ -11,6 +11,9 @@ const config = {
       {
         hostname: "static.wixstatic.com",
       },
+      {
+        hostname: "cdn.discordapp.com",
+      },
     ],
   },
 };

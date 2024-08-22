@@ -59,7 +59,7 @@ export function MainNavigationMenu({
 
                 <ListItem
                   target="_blank"
-                  href="https://www.youtube.com/@JonaPeter"
+                  href="https://www.youtube.com/@ItsPinion"
                   title="Youtube"
                   className="px-auto flex flex-col"
                 >
@@ -71,7 +71,7 @@ export function MainNavigationMenu({
 
                 <ListItem
                   target="_blank"
-                  href="https://discord.gg/SBHnfXWrWt"
+                  href="https://discord.gg/XnzQUw3FPR"
                   title="Discord Server"
                 >
                   Connect with my students here.
@@ -83,7 +83,7 @@ export function MainNavigationMenu({
 
                 <ListItem
                   target="_blank"
-                  href="https://www.chess.com/member/jpetersonchess"
+                  href="https://www.chess.com/member/ItsPinion"
                   title="Chess.com"
                 >
                   Visit my Chess.com profile here.
@@ -94,7 +94,7 @@ export function MainNavigationMenu({
 
                 <ListItem
                   target="_blank"
-                  href="https://lichess.org/@/Tenacious123"
+                  href="https://lichess.org/@/ItsPinion"
                   title="Lichess.org"
                 >
                   Visit my Lichess profile here.

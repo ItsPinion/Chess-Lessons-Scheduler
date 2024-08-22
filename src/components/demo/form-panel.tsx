@@ -236,11 +236,11 @@ export default function FormPanel() {
                 <div className="flex flex-col gap-2 p-3">
                   <Link
                     target="_blank"
-                    href="https://www.paypal.com/paypalme/JonathanPeterson611"
+                    href="https://youtu.be/xvFZjo5PgG0"
                     className="flex flex-row items-center justify-start gap-1"
                   >
                     1. Click this link:{" "}
-                    <span className="text-blue-500">JonathanPeterson611</span>
+                    <span className="text-blue-500">Nothing sus :)</span>
                     <FaExternalLinkAlt />
                   </Link>
 

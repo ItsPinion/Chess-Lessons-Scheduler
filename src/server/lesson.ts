@@ -209,15 +209,15 @@ export async function createLesson(lesson: LessonInsert) {
     await transporter.sendMail({
       from: env.EMAIL_HOST,
       to: lesson.email,
-      subject: "Private lesson with Jonathan Peterson",
-      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with Jonathan Peterson</h1><li>What's your Discord username?: <b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?: <b>${lesson.chess}</b></li><li>Lesson Type: <b>${lesson.lesson_type}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting : <b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(new Date(lesson.time), lesson.offset / 10)}</p><h3>Guests</h3><span>Jonathan Peterson</span><br><span>${lesson.name}</span></div></body></html>`,
+      subject: "Private lesson with ItsPinion",
+      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with ItsPinion</h1><li>What's your Discord username?: <b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?: <b>${lesson.chess}</b></li><li>Lesson Type: <b>${lesson.lesson_type}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting : <b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(new Date(lesson.time), lesson.offset / 10)}</p><h3>Guests</h3><span>ItsPinion</span><br><span>${lesson.name}</span></div></body></html>`,
     });
 
     await transporter.sendMail({
       from: env.EMAIL_HOST,
       to: env.EMAIL_HOST,
       subject: `New lesson booked by ${lesson.name}`,
-      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with Jonathan Peterson</h1><li>What's your Discord username?: <b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?: <b>${lesson.chess}</b></li><li>Lesson Type: <b>${lesson.lesson_type}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting : <b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(new Date(lesson.time), -5)}</p><h3>Guests</h3><span>Jonathan Peterson</span><br><span>${lesson.name}</span></div></body></html>`,
+      html: `<html><head></head><body><div style="padding: 2rem; border: 1px solid black; border-radius: 0.5rem; box-shadow: 0 0 10px rgba(0, 0, 0, 1)"><h1>Private lesson with ItsPinion</h1><li>What's your Discord username?: <b>${lesson.discord}</b></li><li>What's your Chess.com username or Lichess username?: <b>${lesson.chess}</b></li><li>Lesson Type: <b>${lesson.lesson_type}</b></li><li>Paypal Transaction ID: <b>${lesson.transaction}</b></li><li>Please share anything that will help prepare for our meeting : <b>${lesson.notes ?? ""}</b></li> <h3>When</h3><p>${formatDateWithOffset(new Date(lesson.time), -5)}</p><h3>Guests</h3><span>ItsPinion</span><br><span>${lesson.name}</span></div></body></html>`,
     });
 
     console.log("Email sent");

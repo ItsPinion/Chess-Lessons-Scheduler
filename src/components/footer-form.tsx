@@ -75,7 +75,7 @@ export function FooterForm() {
               <FormControl>
                 <Input
                   className="border-4 border-blue-900 bg-[#36393e]"
-                  placeholder="Jonathan Peterson"
+                  placeholder="ItsPinion"
                   {...field}
                 />
               </FormControl>
@@ -92,7 +92,7 @@ export function FooterForm() {
               <FormControl>
                 <Input
                   className="border-4 border-blue-900 bg-[#36393e]"
-                  placeholder="jonapeter91@gmail.com"
+                  placeholder="pinionsnest@gmail.com"
                   {...field}
                 />
               </FormControl>
