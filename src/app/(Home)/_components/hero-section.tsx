@@ -1,11 +1,11 @@
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
-import PlayerVsRandomChessboard from "./PlayerVsRandomChessboard";
+import { ChessBoard } from "./chess-board";
 
 export function HeroSection() {
   return (
-    <div className="flex flex-row items-center justify-between p-3 gap-6">
+    <div className="flex flex-row items-center justify-between gap-6 p-3">
       <div className="flex w-[50%] flex-col items-center justify-center text-center">
         <b className="text-lg">
           <span className="text-purple-500  drop-shadow-[0px_0px_5px_rgba(168,85,247,1)]">
@@ -46,9 +46,7 @@ export function HeroSection() {
           {/* <Button className="mt-4 text-white">Free Lessions</Button> */}
         </div>
       </div>
-      <span className="flex w-[50%] flex-col items-center justify-center text-center">
-        <PlayerVsRandomChessboard />
-      </span>
+      <ChessBoard />
     </div>
   );
 }

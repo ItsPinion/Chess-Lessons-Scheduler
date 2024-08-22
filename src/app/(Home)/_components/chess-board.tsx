@@ -1,173 +1,118 @@
 "use client";
+import { Chess } from "chess.js";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import { Button } from "~/components/ui/button";
 import { motion } from "framer-motion";
-import { useRef } from "react";
-import { ChessBoardSVG } from "~/app/(Home)/_components/ChessBoardSVG";
-
-const chessPieces = {
-  white: [
-    {
-      name: "LightBishop",
-      src: "https://static.wikia.nocookie.net/chess/images/d/d7/LightBishop.png",
-      count: 2,
-      x: 63 * 3,
-      y: 454,
-      adj: 188,
-    },
-    {
-      name: "LightKing",
-      src: "https://static.wikia.nocookie.net/chess/images/7/78/LightKing.png",
-      count: 1,
-      x: 63 * 5,
-      y: 391,
-      adj: 0,
-    },
-    {
-      name: "LightKnight",
-      src: "https://static.wikia.nocookie.net/chess/images/3/32/LightKnight.png",
-      count: 2,
-      x: 63 * 2,
-      y: 360,
-      adj: 315,
-    },
-    {
-      name: "LightPawn",
-      src: "https://static.wikia.nocookie.net/chess/images/3/32/LightPawn.png",
-      count: 8,
-      x: 63 * 1,
-      y: 235,
-      adj: 63,
-    },
-    {
-      name: "LightQueen",
-      src: "https://static.wikia.nocookie.net/chess/images/4/42/LightQueen.png",
-      count: 1,
-      x: 63 * 4,
-      y: 48,
-      adj: 0,
-    },
-    {
-      name: "LightRook",
-      src: "https://static.wikia.nocookie.net/chess/images/9/97/LightRook.png",
-      count: 2,
-      x: 63,
-      y: 17,
-      adj: 440,
-    },
-  ],
-  dark: [
-    {
-      name: "DarkBishop",
-      src: "https://static.wikia.nocookie.net/chess/images/c/c3/DarkBishop.png",
-      count: 2,
-      x: 63.5 * 3,
-      y: -15,
-      adj: 189,
-    },
-    {
-      name: "DarkKing",
-      src: "https://static.wikia.nocookie.net/chess/images/d/d7/DarkKing.png",
-      count: 1,
-      x: 63.25 * 4,
-      y: 48,
-      adj: 0,
-    },
-    {
-      name: "DarkKnight",
-      src: "https://static.wikia.nocookie.net/chess/images/7/7d/DarkKnight.png",
-      count: 2,
-      x: 63.5 * 2,
-      y: 79,
-      adj: 315,
-    },
-    {
-      name: "DarkPawn",
-      src: "https://static.wikia.nocookie.net/chess/images/1/8c/DarkPawn.png",
-      count: 8,
-      x: 64 * 1,
-      y: 79,
-      adj: 63,
-    },
-    {
-      name: "DarkQueen",
-      src: "https://static.wikia.nocookie.net/chess/images/9/90/DarkQueen.png",
-      count: 1,
-      x: 63.4 * 5,
-      y: 392.5,
-      adj: 0,
-    },
-    {
-      name: "DarkRook",
-      src: "https://static.wikia.nocookie.net/chess/images/b/b9/DarkRook.png",
-      count: 2,
-      x: 64,
-      y: 424,
-      adj: 440,
-    },
-  ],
-};
+import { Chessboard } from "react-chessboard";
+import stockfish from "stockfish";
 
 export function ChessBoard() {
-  const constraintsRef = useRef(null);
+  const [auto, setAuto] = useState(false);
+  const [game, setGame] = useState(new Chess());
+  const [position, setPosition] = useState(game.fen());
+  const [engine, setEngine] = useState<any | null>(null);
+
+  useEffect(() => {
+    const newEngine = stockfish();
+    newEngine.onmessage = (event: string) => {
+      if (event.startsWith("bestmove")) {
+        const bestMove = event.split(" ")[1];
+        game.move(bestMove);
+        setPosition(game.fen());
+      }
+    };
+    setEngine(newEngine);
+  }, [game]);
+
+  const makeEngineMove = () => {
+    if (engine) {
+      engine.postMessage("position fen " + game.fen());
+      engine.postMessage("go depth 15"); // Adjust depth for stronger/weaker moves
+    }
+  };
+
+  const onDrop = (sourceSquare: string, targetSquare: string) => {
+    if (auto) return false; // Prevent moves if auto mode is on
+
+    const move = game.move({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: 'q', // Always promote to a queen for simplicity
+    });
+
+    if (move === null) return false; // Illegal move
+
+    setPosition(game.fen());
+
+    // Make the engine move after a short delay
+    setTimeout(() => {
+      makeEngineMove();
+    }, 500);
+
+    return true;
+  };
+
+  const resetGame = () => {
+    const newGame = new Chess();
+    setGame(newGame);
+    setPosition(newGame.fen());
+  };
+
+  useEffect(() => {
+    if (auto) {
+      const interval = setInterval(() => {
+        makeEngineMove();
+      }, 1000); // Make an engine move every second
+
+      return () => clearInterval(interval); // Clear interval on component unmount
+    }
+  }, [auto, game]);
+
   return (
-    <div className="flex w-[50%] flex-col items-center justify-center p-6">
-      <motion.div
-        ref={constraintsRef}
-        className="flex flex-row items-center justify-start"
-      >
-        <div className="flex flex-col items-center justify-start">
-          {chessPieces.white.map((piece) =>
-            Array.from({ length: piece.count }).map((_, i) => {
-              const adjustedHoverPosition = {
-                x: piece.x + i * piece.adj,
-                y: piece.y - i * 31.5,
-                scale: 2,
-              };
+    <motion.div
+      className="flex w-[50%] flex-col items-center justify-center px-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <span className="flex w-full flex-row items-center justify-between">
+        <span className="flex flex-row items-center justify-center text-xl font-extrabold text-primary">
+          <b>Auto play</b>
+          <Toggle setAuto={setAuto} auto={auto} />
+        </span>
+        <Button
+          className="text-white"
+          onClick={resetGame}
+        >
+          Restart
+        </Button>
+      </span>
+      <Chessboard
+        position={position}
+        onPieceDrop={onDrop}
+        customDarkSquareStyle={{ backgroundColor: "#3b82f6" }}
+        customLightSquareStyle={{ backgroundColor: "#ffffff" }}
+        arePiecesDraggable={!auto} // Disable dragging if in auto mode
+      />
+    </motion.div>
+  );
+}
 
-              return (
-                <motion.img
-                  key={`${piece.name}-${i}`}
-                  src={piece.src}
-                  alt="chess"
-                  width={35}
-                  height={35}
-                  animate={adjustedHoverPosition}
-                  transition={{ duration: 1 }}
-                  drag
-                  dragMomentum={false}
-                  dragConstraints={constraintsRef}
-                />
-              );
-            }),
-          )}
-        </div>
-        <ChessBoardSVG />
-        <div className="flex flex-col items-center justify-start">
-          {chessPieces.dark.map((piece) =>
-            Array.from({ length: piece.count }).map((_, i) => {
-              const adjustedHoverPosition = {
-                x: -piece.x - i * piece.adj,
-                y: -piece.y - i * 31.5,
-                scale: 2,
-              };
-
-              return (
-                <motion.img
-                  key={`${piece.name}-${i}`}
-                  src={piece.src}
-                  alt="chess"
-                  width={35}
-                  height={35}
-                  animate={adjustedHoverPosition}
-                  transition={{ duration: 1 }}
-                  drag
-                  dragMomentum={false}
-                  dragConstraints={constraintsRef}
-                />
-              );
-            }),
-          )}
-        </div>
-      </motion.div>
-    </div>
+function Toggle({
+  auto,
+  setAuto,
+}: {
+  auto: boolean;
+  setAuto: Dispatch<SetStateAction<boolean>>;
+}) {
+  return (
+    <label
+      className="rocker rocker-small
+     relative right-5 scale-50"
+    >
+      <input type="checkbox" checked={auto} onChange={() => setAuto(!auto)} />
+      <span className="switch-left">Yes</span>
+      <span className="switch-right">No</span>
+    </label>
   );
 }
